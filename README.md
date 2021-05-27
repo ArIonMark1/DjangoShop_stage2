@@ -1,1 +1,4 @@
-new project GeekShop
+#new project GeekShop
+
+задание первого урока
+
