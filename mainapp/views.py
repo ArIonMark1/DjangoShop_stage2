@@ -19,6 +19,7 @@ def products(request):
 
     file_path = os.path.join(views_dir, 'fixtures/Product.json')
     content.update(json.load(open(file_path, encoding='utf-8')))
+    # content['products'] = json.load(open(file_path, encoding='utf-8'))
 
     # print(content, '\n')
     return render(request, 'mainapp/products.html', content)
