@@ -15,15 +15,12 @@
                 <h1 class="my-4">GeekShop</h1>
                 <div class="list-group">
 
+{# ======================================================================== #}
                     {% for category in categories %}
-                        <a href="#" class="list-group-item">{{ category }}</a>
-                    {% endfor %}
 
-{#                    <a href="#" class="list-group-item">Новинки</a>#}
-{#                    <a href="#" class="list-group-item">Одежда</a>#}
-{#                    <a href="#" class="list-group-item">Обувь</a>#}
-{#                    <a href="#" class="list-group-item">Аксессуары</a>#}
-{#                    <a href="#" class="list-group-item">Подарки</a>#}
+                        <a href="{{ category.id }}" class="list-group-item">{{ category }}</a>
+                    {% endfor %}
+{# ========================================================================= #}
                 </div>
 
             </div>
@@ -62,7 +59,7 @@
                 </div>
 
                 <div class="row">
-
+{# ======================================================================== #}
                     {% for product in products %}
 
                         <div class="col-lg-4 col-md-6 mb-4">
@@ -81,7 +78,7 @@
                                 </a>
                                 <div class="card-body">
                                     <h4 class="card-title">
-                                        <a href="#">{{ product.name }}</a>
+                                        <a href="{% url 'products:category' product.id %}">{{ product.name }}</a>
                                     </h4>
                                     <h5>{{ product.price }} $</h5>
                                     <p class="card-text">{{ product.description }}</p>
@@ -91,8 +88,9 @@
                                 </div>
                             </div>
                         </div>
-                    {% endfor %}
 
+                    {% endfor %}
+{# ========================================================================= #}
                 </div>
 
                 <nav aria-label="Page navigation example">

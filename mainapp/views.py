@@ -4,6 +4,7 @@ import os
 
 from mainapp.models import ProductCategory, Product
 
+
 # Create your views here.
 # views_dir = os.path.dirname(__file__)
 
@@ -14,11 +15,18 @@ def index(request):
     return render(request, 'mainapp/index.html', content)
 
 
-def products(request):
+def products(request, cat=None):
     content = {
         'title': 'geekshop products',
-
         'categories': ProductCategory.objects.all(),
         'products': Product.objects.all(),
     }
-    return render(request, 'mainapp/products.html', content)
+    if cat:
+        content = {
+            'categories': ProductCategory.objects.all(),
+            'products': Product.objects.filter(category_id=cat),
+        }
+        return render(request, 'mainapp/products.html', content)
+    else:
+        return render(request, 'mainapp/products.html', content)
+
