@@ -14,11 +14,16 @@
 
                 <h1 class="my-4">GeekShop</h1>
                 <div class="list-group">
-                    <a href="#" class="list-group-item">Новинки</a>
-                    <a href="#" class="list-group-item">Одежда</a>
-                    <a href="#" class="list-group-item">Обувь</a>
-                    <a href="#" class="list-group-item">Аксессуары</a>
-                    <a href="#" class="list-group-item">Подарки</a>
+
+                    {% for category in categories %}
+                        <a href="#" class="list-group-item">{{ category }}</a>
+                    {% endfor %}
+
+{#                    <a href="#" class="list-group-item">Новинки</a>#}
+{#                    <a href="#" class="list-group-item">Одежда</a>#}
+{#                    <a href="#" class="list-group-item">Обувь</a>#}
+{#                    <a href="#" class="list-group-item">Аксессуары</a>#}
+{#                    <a href="#" class="list-group-item">Подарки</a>#}
                 </div>
 
             </div>
@@ -57,6 +62,7 @@
                 </div>
 
                 <div class="row">
+
                     {% for product in products %}
 
                         <div class="col-lg-4 col-md-6 mb-4">
@@ -64,13 +70,12 @@
                                 <a href="#">
 
                                     <img class="card-img-top"
-                                         src=" {% static 'vendor/img/products/'|add:product.img %} "
+                                         src=" /media/{{ product.image }} "
                                          alt="image">
-                                    <!-- ааа, черточка поганая!! с ней ошибка а без нее ничего не работает.. да еще и за пробелами следить надо, где то лишний и все упало -->
 
 {#                                    ===========================================================#}
 {#                                      <img class="card-img-top"#}
-{#                                         src=" {% static el.img %} " // если в файле указан полный путь #}
+{#                                         src=" {% static el.img %} " #// если в файле указан полный путь#}
 {#                                         alt="image">#}
 {# оставил как заметку чисто для себя    ^^^ #}
                                 </a>
@@ -78,8 +83,8 @@
                                     <h4 class="card-title">
                                         <a href="#">{{ product.name }}</a>
                                     </h4>
-                                    <h5>{{ product.price }}</h5>
-                                    <p class="card-text">{{ product.short_description }}</p>
+                                    <h5>{{ product.price }} $</h5>
+                                    <p class="card-text">{{ product.description }}</p>
                                 </div>
                                 <div class="card-footer text-center">
                                     <button type="button" class="btn btn-outline-success">Отправить в корзину</button>
