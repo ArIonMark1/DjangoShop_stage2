@@ -22,10 +22,8 @@ def products(request, cat=None):
         'products': Product.objects.all(),
     }
     if cat:
-        content = {
-            'categories': ProductCategory.objects.all(),
-            'products': Product.objects.filter(category_id=cat),
-        }
+
+        content['products'] = Product.objects.filter(category_id=cat)
         return render(request, 'mainapp/products.html', content)
     else:
         return render(request, 'mainapp/products.html', content)
