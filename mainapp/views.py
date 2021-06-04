@@ -1,6 +1,4 @@
 from django.shortcuts import render
-import os
-# import json
 
 from mainapp.models import ProductCategory, Product
 
@@ -22,9 +20,10 @@ def products(request, cat=None):
         'products': Product.objects.all(),
     }
     if cat:
-
-        content['products'] = Product.objects.filter(category_id=cat)
-        return render(request, 'mainapp/products.html', content)
+        for product in content['products']:
+            id_categories = product.category_id
+            if id_categories == cat:
+                content['products'] = Product.objects.filter(category_id=id_categories)
+                return render(request, 'mainapp/products.html', content)
     else:
         return render(request, 'mainapp/products.html', content)
-
