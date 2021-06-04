@@ -28,6 +28,7 @@ urlpatterns = [
 
     path('products/', include('mainapp.urls', namespace='products')),
     path('auth/', include('users.urls', namespace='users')),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
