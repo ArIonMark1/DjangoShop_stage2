@@ -17,7 +17,7 @@ def login(request):
             user = auth.authenticate(username=username, password=password)  # сверяем с базой, есть ли такой юзер
             if user and user.is_active:
                 auth.login(request, user)
-                return HttpResponseRedirect(reverse('mainapp:index'))
+                return HttpResponseRedirect(reverse('index'))
     else:
         form = UserLoginForm()
 
