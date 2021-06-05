@@ -14,6 +14,7 @@
             <div class="card-header"><h3 class="text-center font-weight-light my-4">Авторизация</h3>
             </div>
             <div class="card-body">
+
                 <form action="{% url 'users:login' %}" method="post">
                     {% csrf_token %}
 {#                    без токена ничего не работает, ругается на небезопасный запрос #}

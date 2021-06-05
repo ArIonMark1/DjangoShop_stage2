@@ -16,15 +16,26 @@ class UserLoginForm(AuthenticationForm):
         fields = ('username', 'password')
 
 
-# class UserLoginForm(AuthenticationForm):
-#     class Meta:
-#         model = User
-#         fields = ('username', 'password')
-#
-#     def __init__(self, *args, **kwargs):
-#         super(UserLoginForm, self).__init__(*args, **kwargs)
-#
-#         self.fields['username'].widget.attrs['placeholder'] = 'Введите имя пользователя'
-#         self.fields['password'].widget.attrs['placeholder'] = 'Введите пароль'
-#         for field_name, field in self.fields.items():
-#             field.widget.attrs['class'] = 'form-control py-4'
+class UserRegistrationForm(UserCreationForm):
+    first_name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control  py-4', 'placeholder': 'Введите Ииииимя'
+    }))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control py-4', 'placeholder': 'Введите фамилию'
+    }))
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control py-4', 'placeholder': 'Введите имя пользователя'
+    }))
+    email = forms.EmailField(widget=forms.TextInput(attrs={
+        'class': 'form-control py-4', 'placeholder': 'Введите адрес эл. почты'}))
+
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control py-4', 'placeholder': 'Введите пароль'
+    }))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control py-4', 'placeholder': 'Введите пароль'
+    }))
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
