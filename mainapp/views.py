@@ -13,18 +13,18 @@ def index(request):
     return render(request, 'mainapp/index.html', content)
 
 
-def products(request, cat=None):
+def products(request, value=None):
     content = {
         'title': 'geekshop products',
         'categories': ProductCategory.objects.all(),
         'products': Product.objects.all(),
     }
 
-    if cat:
+    if value:
         for product in content['products']:
             id_categories = product.category_id
-            if id_categories == cat:
-                content['products'] = Product.objects.filter(category_id=cat)
+            if id_categories == value:
+                content['products'] = Product.objects.filter(category_id=value)
                 return render(request, 'mainapp/products.html', content)
 
     return render(request, 'mainapp/products.html', content)
