@@ -1,24 +1,30 @@
 from django.shortcuts import render
-import os
-import json
+
+from mainapp.models import ProductCategory, Product
+
 
 # Create your views here.
-views_dir = os.path.dirname(__file__)
+# views_dir = os.path.dirname(__file__)
 
 
 def index(request):
     content = {'title': 'geekShop'}
+
     return render(request, 'mainapp/index.html', content)
 
 
-def products(request):
+def products(request, value=None):
     content = {
         'title': 'geekshop products',
-        'content': 'Hello User!!',
+        'categories': ProductCategory.objects.all(),
+        'products': Product.objects.all(),
     }
 
-    file_path = os.path.join(views_dir, 'fixtures/Product.json')
-    content.update(json.load(open(file_path, encoding='utf-8')))
+    if value:
+        for product in content['products']:
+            id_categories = product.category_id
+            if id_categories == value:
+                content['products'] = Product.objects.filter(category_id=value)
+                return render(request, 'mainapp/products.html', content)
 
-    # print(content, '\n')
     return render(request, 'mainapp/products.html', content)
