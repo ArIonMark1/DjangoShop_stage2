@@ -2,6 +2,8 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import auth, messages
 from django.urls import reverse
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
+from django.contrib.auth.decorators import login_required
+from baskets.models import Basket
 
 
 # Create your views here.
@@ -40,21 +42,26 @@ def register(request):
     return render(request, 'register.html', context)
 
 
+@login_required  # как то безсмысленно...на даном проекте, при обьявленом условии отбражения, чисто для практики только 
 def profile(request):
-
+    user = request.user
     if request.method == 'POST':
-        form = UserProfileForm(data=request.POST, instance=request.user, files=request.FILES)
+        form = UserProfileForm(data=request.POST, instance=user, files=request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, 'Данные изменены!!')
             return HttpResponseRedirect(reverse('users:profile'))
-        else:
-            print(form.errors)
+        # else:
+        #     print(form.errors)
     else:
-        form = UserProfileForm(instance=request.user)
+        form = UserProfileForm(instance=user)
 
-    content = {'title': 'GeekShop - Профиль', 'form': form}
-    return render(request, 'profile.html', content)
+    context = {'title': 'GeekShop - Профиль',
+               'form': form,
+               'baskets': Basket.objects.filter(user=user),
+               }
+
+    return render(request, 'profile.html', context)
 
 
 def logout(request):
