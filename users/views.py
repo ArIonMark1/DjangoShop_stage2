@@ -42,7 +42,7 @@ def register(request):
     return render(request, 'register.html', context)
 
 
-@login_required  # как то безсмысленно...на даном проекте, при обьявленом условии отбражения, чисто для практики только 
+@login_required
 def profile(request):
     user = request.user
     if request.method == 'POST':
