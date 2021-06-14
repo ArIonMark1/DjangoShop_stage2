@@ -18,8 +18,8 @@
                         <div class="row text-center">
                             <div class="col-lg-4">
                                 <label>
-                                    <input name="{{ basket.id }}" type="number" class="form-control"
-                                           value="{{ basket.quantity }}">
+                                    <input name="{{ basket.id }}" type="text" class="form-control"
+                                           value="{{ basket.quantity }}" >
                                 </label>
                             </div>
                             <div class="col-lg-4"><strong>{{ basket.sum }} руб.</strong></div>
@@ -30,6 +30,13 @@
                             </div>
                         </div>
                     </li>
+                    <div class="buttons" style="display: flex; justify-content: space-between; position: relative;">
+                <button type="button" class="btn btn-success btn-lg float-right"
+                        style="min-width: 49%; font-size: 25px; padding: 0!important;"><b>+</b></button>
+                <button type="button" class="btn btn-success btn-lg float-right"
+                        style="min-width: 49%;font-size: 25px; padding: 0!important;"><b>-</b></button>
+            </div>
+
                 </ul>
             </div>
 
@@ -43,8 +50,10 @@
             </div>
         </div>
         <button type="button" class="btn btn-success btn-lg float-right">Оформить</button>
+{# ======================================================================================= #}
 
     {% else %}
+
         <h4 class="mt-3 mb-3 text-center">
             Корзина пустая
         </h4>
