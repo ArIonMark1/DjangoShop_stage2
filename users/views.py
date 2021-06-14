@@ -51,25 +51,18 @@ def profile(request):
             form.save()
             messages.success(request, 'Данные изменены!!')
             return HttpResponseRedirect(reverse('users:profile'))
-        # else:
-        #     print(form.errors)
     else:
         form = UserProfileForm(instance=user)
-
-    total_quantity = 0
-    total_sum = 0
-    baskets = Basket.objects.filter(user=user)
-    for basket in baskets:
-        total_quantity += basket.quantity
-        total_sum += basket.sum()
+    # total_quantity = 0
+    # total_sum = 0
+    # for basket in baskets:
+    #     total_quantity += basket.quantity
+    #     total_sum += basket.sum()
 
     context = {'title': 'GeekShop - Профиль',
                'form': form,
-               'baskets': baskets,
-               'total_quantity': total_quantity,
-               'total_sum': total_sum,
+               'baskets': Basket.objects.filter(user=user),
                }
-
     return render(request, 'profile.html', context)
 
 
