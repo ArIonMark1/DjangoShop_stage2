@@ -41,6 +41,7 @@ def basket_edit(request, p_id, quantity):  # p_id => типа product id, так
             basket.save()
         else:
             basket.delete()
+
         baskets = Basket.objects.filter(user=request.user)
         context = {'baskets': baskets}
         result = render_to_string('baskets/baskets.html', context)

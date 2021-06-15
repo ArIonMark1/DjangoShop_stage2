@@ -19,7 +19,7 @@
                             <div class="col-lg-4">
                                 <label>
                                     <input name="{{ basket.id }}" type="text" class="form-control"
-                                           value="{{ basket.quantity }}" >
+                                           value="{{ basket.quantity }}">
                                 </label>
                             </div>
                             <div class="col-lg-4"><strong>{{ basket.sum }} руб.</strong></div>
@@ -31,11 +31,18 @@
                         </div>
                     </li>
                     <div class="buttons" style="display: flex; justify-content: space-between; position: relative;">
-                <button type="button" class="btn btn-success btn-lg float-right"
-                        style="min-width: 49%; font-size: 25px; padding: 0!important;"><b>+</b></button>
-                <button type="button" class="btn btn-success btn-lg float-right"
-                        style="min-width: 49%;font-size: 25px; padding: 0!important;"><b>-</b></button>
-            </div>
+                        <button data-id="{{ basket.id }}"
+                                value="{{ basket.quantity }}"
+                                type="button"
+                                class="btn btn-success plus"
+                                style="min-width: 49%; font-size: 25px; padding: 0!important;"><b>+</b></button>
+
+                        <button data-id="{{ basket.id }}"
+                                value="{{ basket.quantity }}"
+                                type="button"
+                                class="btn btn-success minus"
+                                style="min-width: 49%;font-size: 25px; padding: 0!important;"><b>-</b></button>
+                    </div>
 
                 </ul>
             </div>
@@ -50,7 +57,7 @@
             </div>
         </div>
         <button type="button" class="btn btn-success btn-lg float-right">Оформить</button>
-{# ======================================================================================= #}
+        {# ======================================================================================= #}
 
     {% else %}
 
