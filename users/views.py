@@ -1,7 +1,9 @@
 from django.shortcuts import render, HttpResponseRedirect
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.urls import reverse
-from users.forms import UserLoginForm, UserRegistrationForm
+from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
+from django.contrib.auth.decorators import login_required
+from baskets.models import Basket
 
 
 # Create your views here.
@@ -13,11 +15,11 @@ def login(request):
         if form.is_valid():
             username = request.POST['username']
             password = request.POST['password']
-            print('>>>>>>>>>>>>', username, password)
             user = auth.authenticate(username=username, password=password)  # сверяем с базой, есть ли такой юзер
 
             if user and user.is_active:
                 auth.login(request, user)
+
                 return HttpResponseRedirect(reverse('index'))
     else:
         form = UserLoginForm()
@@ -31,14 +33,35 @@ def register(request):
         form = UserRegistrationForm(data=request.POST)  # если заполненая
         if form.is_valid():
             form.save()  # должно сохранять в базу
+            messages.success(request, 'Регистрация прошла успешно!!')
             return HttpResponseRedirect(reverse('users:login'))
     else:
-
         form = UserRegistrationForm()  # если пустая
-        print(form.errors)
 
     context = {'title': 'GeekShop Регистрация', 'form': form}
     return render(request, 'register.html', context)
+
+
+@login_required
+def profile(request):
+    user = request.user
+    if request.method == 'POST':
+        form = UserProfileForm(data=request.POST, instance=user, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Данные изменены!!')
+            return HttpResponseRedirect(reverse('users:profile'))
+        # else:
+        #     print(form.errors)
+    else:
+        form = UserProfileForm(instance=user)
+
+    context = {'title': 'GeekShop - Профиль',
+               'form': form,
+               'baskets': Basket.objects.filter(user=user),
+               }
+
+    return render(request, 'profile.html', context)
 
 
 def logout(request):

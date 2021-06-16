@@ -19,12 +19,8 @@ def products(request, value=None):
         'categories': ProductCategory.objects.all(),
         'products': Product.objects.all(),
     }
-
     if value:
-        for product in content['products']:
-            id_categories = product.category_id
-            if id_categories == value:
-                content['products'] = Product.objects.filter(category_id=value)
-                return render(request, 'mainapp/products.html', content)
+        content['products'] = Product.objects.filter(category_id=value)
+        return render(request, 'mainapp/products.html', content)
 
     return render(request, 'mainapp/products.html', content)

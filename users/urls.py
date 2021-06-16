@@ -5,7 +5,9 @@ import users.views as auth
 app_name = 'users'
 
 urlpatterns = [
-    path('login/', auth.login, name='login'),
+
     path('register/', auth.register, name='register'),
+    path('login/', auth.login, name='login'),
+    path('profile/', auth.profile, name='profile'),
     path('logout/', auth.logout, name='logout'),
 ]

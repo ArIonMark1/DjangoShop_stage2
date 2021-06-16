@@ -20,7 +20,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 import mainapp.views as mainapp
-import users.views as auth
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +27,7 @@ urlpatterns = [
 
     path('products/', include('mainapp.urls', namespace='products')),
     path('auth/', include('users.urls', namespace='users')),
+    path('baskets/', include('baskets.urls', namespace='baskets')),
 
 ]
 if settings.DEBUG:
