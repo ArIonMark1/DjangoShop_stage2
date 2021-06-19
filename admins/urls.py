@@ -10,5 +10,6 @@ urlpatterns = [
     path('users/create/', admin_users_create, name='users_create'),
     path('users/update/<int:id_user>/', admin_users_update, name='users_update'),
     path('users/delete/<int:id_user>/', admin_users_delete, name='users_delete'),
+    path('users/recovery/<int:id_user>/', admin_users_recovery, name='users_recovery'),
 
 ]

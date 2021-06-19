@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse
 from admins.forms import UserAdminRegisterForm, UserAdminProfileForm
-
+from django.contrib.auth.decorators import user_passes_test  # декоратор для обязательной авторизации
 from users.models import User
 
 
@@ -10,18 +10,21 @@ from users.models import User
 # CRUD
 
 # top page
+@user_passes_test(lambda u: u.is_superuser)
 def index(request):
     context = {'title': 'GeekShop - Admin'}
     return render(request, 'admins/admin.html', context)
 
 
 # READ
+@user_passes_test(lambda u: u.is_superuser)
 def admin_users(request):
     context = {'title': 'GeekShop - Admin | Пользователи', 'users': User.objects.all()}
     return render(request, 'admins/admin-users-read.html', context)
 
 
 # CREATE
+@user_passes_test(lambda u: u.is_superuser)
 def admin_users_create(request):
     if request.method == 'POST':
         form = UserAdminRegisterForm(data=request.POST, files=request.FILES)
@@ -37,6 +40,7 @@ def admin_users_create(request):
 
 
 # UPDATE
+@user_passes_test(lambda u: u.is_superuser)
 def admin_users_update(request, id_user=None):
     selected_user = User.objects.get(id=id_user)
     if request.method == 'POST':
@@ -56,10 +60,19 @@ def admin_users_update(request, id_user=None):
 
 
 # DELETE
+@user_passes_test(lambda u: u.is_superuser)
 def admin_users_delete(request, id_user):
     user = User.objects.get(id=id_user)
     user.is_active = False
     user.save()
     messages.success(request, f'Пользователь "{user}" успешно удален!!')
     return HttpResponseRedirect(reverse('admins:admin_users'))
-    pass
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def admin_users_recovery(request, id_user):
+    user = User.objects.get(id=id_user)
+    user.is_active = True
+    user.save()
+    messages.success(request, f'Пользователь "{user}" успешно Востановлен!!')
+    return HttpResponseRedirect(reverse('admins:admin_users'))
