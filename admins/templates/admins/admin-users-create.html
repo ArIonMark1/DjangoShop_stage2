@@ -5,18 +5,20 @@
     <main>
     <div class="container-fluid">
         <h1 class="mt-4">Создание пользователя</h1>
-        <form action="">
+        <form action="{% url 'admins:users_create' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
             <div class="form-row">
                 <div class="col-lg-6">
+
                     <div class="form-group">
-                        <label class="small mb-1" for="inputFirstName">Имя</label>
-                        <input class="form-control py-4" id="inputFirstName" type="text"/>
+                        <label class="small mb-1" for="{{ form.first_name.id_for_label }}">Имя</label>
+                        {{ form.first_name }}
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group">
-                        <label class="small mb-1" for="inputLastName">Фамилия</label>
-                        <input class="form-control py-4" id="inputLastName" type="text"/>
+                        <label class="small mb-1" for="{{ form.last_name.id_for_label }}">Фамилия</label>
+                        {{ form.last_name }}
                     </div>
                 </div>
             </div>
@@ -24,33 +26,30 @@
                 <div class="col-lg-12">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="userAvatar" size="50">
-                        <label class="custom-file-label" for="userAvatar">Выберите изображение</label>
+                        {{ form.image }}
+                        <label class="custom-file-label" for="{{ form.image.id_for_label }}">Выберите изображение</label>
                     </div>
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-lg-6">
-                    <label class="small mb-1" for="inputUsername">Имя пользователя</label>
-                    <input class="form-control py-4" id="inputUsername" type="text"
-                           aria-describedby="usernameHelp"/>
+                    <label class="small mb-1" for="{{ form.username.id_for_label }}">Имя пользователя</label>
+                    {{ form.username }}
                 </div>
                 <div class="col-lg-6">
-                    <label class="small mb-1" for="inputEmailAddress">Адрес электронной
+                    <label class="small mb-1" for="{{ form.email.id_for_label }}">Адрес электронной
                         почты</label>
-                    <input class="form-control py-4" id="inputEmailAddress" type="email"
-                           aria-describedby="emailHelp"/>
+                    {{ form.email }}
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-lg-6">
-                    <label class="small mb-1" for="inputPassword1">Пароль</label>
-                    <input class="form-control py-4" id="inputPassword1" type="text"
-                           aria-describedby="password1Help"/>
+                    <label class="small mb-1" for="{{ form.password1.id_for_label }}">Пароль</label>
+                    {{ form.password1 }}
                 </div>
                 <div class="col-lg-6">
-                    <label class="small mb-1" for="inputPassword2">Повторите пароль</label>
-                    <input class="form-control py-4" id="inputPassword2" type="text"
-                           aria-describedby="password2Help"/>
+                    <label class="small mb-1" for="{{ form.password2.id_for_label }}">Повторите пароль</label>
+                   {{ form.password2 }}
                 </div>
             </div>
             <div class="form-row">
