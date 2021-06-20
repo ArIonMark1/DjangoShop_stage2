@@ -107,7 +107,7 @@ def admin_categories_create(request):
 
 
 # ====================================================================
-
+@user_passes_test(lambda u: u.is_superuser)
 def admin_categories_update(request, id_category):
     category = ProductCategory.objects.get(id=id_category)
 
