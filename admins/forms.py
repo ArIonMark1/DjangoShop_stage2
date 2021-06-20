@@ -1,4 +1,6 @@
 from users.forms import UserRegistrationForm, UserProfileForm
+
+from mainapp.models import ProductCategory
 from django import forms
 from users.models import User
 
@@ -21,3 +23,31 @@ class UserAdminProfileForm(UserProfileForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'image', 'username', 'email')
+
+
+# ===============================================
+
+class CategoryCreationForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control py-4', 'placeholder': 'Введите имя категории',
+    }))
+    description = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control py-4', 'placeholder': 'Описание товара'
+    }))
+
+    class Meta:
+        model = ProductCategory
+        fields = '__all__'
+
+
+# ===============================================
+class CategoriesAdminProfileForm(CategoryCreationForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control py-4', 'placeholder': 'Введите имя категории',
+    }))
+    description = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control py-4', 'placeholder': 'Описание товара'
+    }))
+
+    model = ProductCategory
+    fields = ('name', 'description')
