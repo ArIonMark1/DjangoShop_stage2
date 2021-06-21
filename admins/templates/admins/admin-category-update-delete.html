@@ -1,0 +1,59 @@
+{% extends 'admins/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">Редактирование категории | {{ category }}</h1>
+                <div class="card-body">
+                    <form action="{% url 'admins:categories_update' category.id %}" method="post">
+                {% csrf_token %}
+
+                <div class="form-row">
+
+                    {# ================================================================================================================== #}
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="{{ form.name.id_for_label }}">Название категории</label>
+                            {{ form.name }}
+                        </div>
+                    </div>
+
+                    {# ================================================================================================================== #}
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="{{ form.description.id_for_label }}">Описание
+                                категории</label>
+                            {{ form.description }}
+                        </div>
+                    </div>
+
+                    {# ================================================================================================================== #}
+
+                </div>
+
+                <div class="form-row">
+                    <div class="col-lg-12" style="margin-top: 33px;">
+                        <input class="btn btn-info btn-block" type="submit" value="Сохранить">
+                    </div>
+                </div>
+            </form>
+                    <div class="row">
+                        <div class="col-lg-12" style="margin-top: 33px;">
+
+                            {% if category.is_active %}
+
+                            <a href="{% url 'admins:categories_delete' category.id%}" class="btn btn-danger btn-block"
+                           type="submit">Удалить</a>
+                        {% else %}
+                            <a href="{% url 'admins:categories_recovery' category.id %}" class="btn btn-success btn-block"
+                           type="submit">Востановить</a>
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+{% endblock %}
