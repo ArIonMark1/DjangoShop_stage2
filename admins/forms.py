@@ -1,7 +1,10 @@
-from users.forms import UserRegistrationForm, UserProfileForm
+from django.forms import ModelChoiceField
 
+from users.forms import UserRegistrationForm, UserProfileForm
+# ProductAdminCreationForm
 from mainapp.models import ProductCategory, Product
 from django import forms
+# from django.forms.models import ModelForm
 from users.models import User
 
 
@@ -62,22 +65,26 @@ class CategoriesAdminProfileForm(CategoryCreationForm):
 # ============================ products ============================
 # --------------------------------------------------------------------
 
-# class ProductAdminCreationForm(forms.Form):
-#     name = forms.CharField(widget=forms.TextInput(attrs={
-#         'class': 'form-control py-4'}))
-#     image = forms.ImageField(widget=forms.FileInput(attrs={
-#         'class': 'custom-file-input'}), required=False)
-#     description = forms.CharField(widget=forms.TextInput(attrs={
-#         'class': 'form-control py-4'}))
-#     price = forms.DecimalField(widget=forms.NumberInput(attrs={
-#         'class': 'form-control py-4'}))
-#     quantity = forms.IntegerField(widget=forms.NumberInput(attrs={
-#         'class': 'form-control py-4'}))
-#     category = forms.IntegerField(widget=forms.NumberInput(attrs={
-#         'class': 'form-control py-4'}))
-#     is_active = forms.BooleanField(widget=forms.CheckboxInput(attrs={
-#         'class': 'form-control py-4'}), required=False)
-#
-#     class Meta:
-#         model = Product
-#         fields = '__all__'
+class ProductAdminCreationForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control py-4'}))
+    description = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control py-4'}))
+    image = forms.ImageField(widget=forms.FileInput(attrs={
+        'class': 'custom-file-input'}), required=False)
+    price = forms.DecimalField(widget=forms.NumberInput(attrs={
+        'class': 'form-control py-4'}))
+    quantity = forms.IntegerField(widget=forms.NumberInput(attrs={
+        'class': 'form-control py-4'}))
+
+    # category = forms.ChoiceField(widget=forms.Input(attrs={
+    #     'class': 'form-control py-4'}))
+
+    category = ModelChoiceField(queryset=ProductCategory.objects.all())
+
+    is_active = forms.BooleanField(widget=forms.CheckboxInput(attrs={
+        'class': 'form-control py-4'}), required=False)
+
+    class Meta:
+        model = Product
+        fields = ('name', 'description', 'image', 'price', 'quantity', 'category', 'is_active')

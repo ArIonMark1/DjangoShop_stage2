@@ -3,21 +3,11 @@
 
 {% block content %}
     <main>
-        {# ================================== #}
-        {% if form.errors %}
-
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>{{ form.errors }}</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-        {% endif %}
-        {# ================================== #}
         <div class="container-fluid">
-            <h1 class="mt-4">Создание Товара</h1>
-            <form action="{% url 'admins:create_products' %}" method="post" enctype="multipart/form-data">
+            <h1 class="mt-4">Редактирование Продукта | {{ product.name }}</h1>
+            <div class="card-body">
+
+                <form action="{% url 'admins:update_products' product.id %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {# =================================================================================================#}
                 <div class="form-row">
@@ -40,6 +30,14 @@
 
                 {# =================================================================================================#}
                 <div class="form-row mb-2">
+
+                    <div class="col-lg-12 text-center">
+                    <img width="150"
+                         src="{% if product.image %} {{ product.image.url }}
+                                {% else %} {% static 'vendor/img/products/default.png' %}
+                                {% endif %}"
+                         class="img-thumbnail" alt="foto">
+                </div>
                     <div class="col-lg-12">
                         <div class="custom-file">
 
@@ -53,13 +51,19 @@
                 <div class="form-row">
 
                     <div class="col-lg-6">
-                        <label class="small mb-1" for="{{ form.price.id_for_label }}">Цена товара</label>
+                        <div class="form-group" style="text-align: center; display: flex; flex-direction: column; margin-top: 5px">
+                            <label class="small mb-1" for="{{ form.price.id_for_label }}">Цена товара</label>
                         {{ form.price }}
+                        </div>
+
                     </div>
 
                     <div class="col-lg-6">
-                        <label class="small mb-1" for="{{ form.quantity.id_for_label }}">Количество товара</label>
+                        <div class="form-group" style="text-align: center; display: flex; flex-direction: column; margin-top: 5px">
+                            <label class="small mb-1" for="{{ form.quantity.id_for_label }}">Количество товара</label>
                         {{ form.quantity }}
+                        </div>
+
                     </div>
 
                 </div>
@@ -89,6 +93,17 @@
                     </div>
                 </div>
             </form>
+
+                <div class="row">
+                    <div class="col-lg-12" style="margin-top: 33px;">
+
+                     <a href="{% url 'admins:delete_products' product.id %}" class="btn btn-danger btn-block"
+                           type="submit">Удалить</a>
+                        
+
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 {% endblock %}

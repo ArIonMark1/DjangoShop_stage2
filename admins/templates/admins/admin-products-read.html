@@ -64,19 +64,13 @@
                             {% for product in admin_products%}
                                 <tr>
 
-                                    <td><a href="#" style="color:  #008080; text-shadow: 2px 2px 5px greenyellow">
+                                    <td><a href="{% url 'admins:update_products' product.id %}" style="color:  #008080; text-shadow: 2px 2px 5px greenyellow">
                                         {{ product.name }}</a></td>
                                     <td>{{ product.image }}</td>
                                     <td>{{ product.description }}</td>
                                     <td>{{ product.price }}</td>
                                     <td>{{ product.quantity }}</td>
-                                    {% for category in categories %}
-                                        {% if category.id == product.category_id %}
-                                            <td>{{ category.name }}</td>
-                                        {% endif %}
-                                    {% endfor %}
-
-
+                                    <td>{{ product.category.name }}</td>
 
                                     <td class="text-center">
                                         {% if product.is_active %}

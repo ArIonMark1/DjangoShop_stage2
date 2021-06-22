@@ -2,10 +2,10 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse
 from admins.forms import UserAdminRegisterForm, UserAdminProfileForm
-from admins.forms import CategoryCreationForm, CategoriesAdminProfileForm
+from admins.forms import CategoryCreationForm, CategoriesAdminProfileForm, ProductAdminCreationForm
 from django.contrib.auth.decorators import user_passes_test  # декоратор для обязательной авторизации
 from users.models import User
-from mainapp.models import ProductCategory, Product, ProductAdminForm
+from mainapp.models import ProductCategory, Product
 
 
 # Create your views here.
@@ -164,29 +164,47 @@ def admin_products_read(request):
 # ============================================
 # CREATE
 def admin_products_create(request):
-
     if request.method == 'POST':
-        form = ProductAdminForm(data=request.POST, files=request.FILES)
+        form = ProductAdminCreationForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             form.save()
+            name = request.POST['name']
+            messages.success(request, f'Товар "{name}" успешно Зарегистрирован!!')
             return HttpResponseRedirect(reverse('admins:admin_products'))
     else:
-        form = ProductAdminForm()
+        form = ProductAdminCreationForm()
     context = {'title': 'GeekShop - Admin | Регистрация Товара',
-               'form': form,
-               'categories': ProductCategory.objects.all(),
-               'id': id,
-               }
+               'form': form, }
 
     return render(request, 'admins/admin-products-create.html', context)
 
 
 # UPDATE
-def admin_products_update():
-    pass
+def admin_products_update(request, id_prod):
+    selected_product = Product.objects.get(id=id_prod)
+
+    if request.method == 'POST':
+
+        form = ProductAdminCreationForm(data=request.POST, instance=selected_product, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Изменения данных пользователя "{selected_product}" успешно сохранены!!')
+            return HttpResponseRedirect(reverse('admins:admin_products'))
+    else:
+        form = ProductAdminCreationForm(instance=selected_product)
+
+    context = {'title': 'GeekShop - Admin | Изменение категории',
+               'form': form,
+               'product': selected_product}
+
+    return render(request, 'admins/admin-products-update-delete.html', context)
 
 
 # DELETE
-def admin_products_delete(request):
-    pass
+def admin_products_delete(request, id_prod):
+    selected_product = Product.objects.get(id=id_prod)
+    selected_product.delete()
+    messages.success(request, f'Товар "{selected_product}" Удален!!')
+    return HttpResponseRedirect(reverse('admins:admin_products'))
+
 # RECOVERY

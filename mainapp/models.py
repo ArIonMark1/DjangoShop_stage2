@@ -25,7 +25,8 @@ class Product(models.Model):
         return f'{self.name} | {self.category}'
 
 
-class ProductAdminForm(ModelForm):
-    class Meta:
-        model = Product
-        fields = '__all__'
+# class ProductAdminForm(ModelForm):
+#
+#     class Meta:
+#         model = Product
+#         fields = ('name', 'description', 'image', 'price', 'quantity', 'category', 'is_active',)

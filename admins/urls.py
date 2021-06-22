@@ -18,9 +18,9 @@ urlpatterns = [
     path('categories/delete/<int:id_category>/', admin_categories_delete, name='categories_delete'),
     path('categories/recovery/<int:id_category>/', admin_categories_recovery, name='categories_recovery'),
 
-    path('products/', admin_products_read, name='admin_products'),
+    path('products/read/', admin_products_read, name='admin_products'),
     path('products/create/', admin_products_create, name='create_products'),
-    path('products/update/', admin_products_update, name='update_products'),
-    path('products/delete/', admin_products_delete, name='delete_products'),
+    path('products/update/<int:id_prod>/', admin_products_update, name='update_products'),
+    path('products/delete/<int:id_prod>/', admin_products_delete, name='delete_products'),
 
 ]
