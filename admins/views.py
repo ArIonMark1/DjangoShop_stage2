@@ -153,6 +153,7 @@ def admin_categories_recovery(request, id_category):
 # products
 # =========================
 # READ
+@user_passes_test(lambda u: u.is_superuser)
 def admin_products_read(request):
     context = {'title': 'GeekShop - Admin | Товар',
                'admin_products': Product.objects.all(),
@@ -163,6 +164,7 @@ def admin_products_read(request):
 
 # ============================================
 # CREATE
+@user_passes_test(lambda u: u.is_superuser)
 def admin_products_create(request):
     if request.method == 'POST':
         form = ProductAdminCreationForm(data=request.POST, files=request.FILES)
@@ -180,6 +182,7 @@ def admin_products_create(request):
 
 
 # UPDATE
+@user_passes_test(lambda u: u.is_superuser)
 def admin_products_update(request, id_prod):
     selected_product = Product.objects.get(id=id_prod)
 
@@ -201,6 +204,7 @@ def admin_products_update(request, id_prod):
 
 
 # DELETE
+@user_passes_test(lambda u: u.is_superuser)
 def admin_products_delete(request, id_prod):
     selected_product = Product.objects.get(id=id_prod)
     selected_product.delete()
