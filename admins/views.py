@@ -5,7 +5,7 @@ from admins.forms import UserAdminRegisterForm, UserAdminProfileForm
 from admins.forms import CategoryCreationForm, CategoriesAdminProfileForm
 from django.contrib.auth.decorators import user_passes_test  # декоратор для обязательной авторизации
 from users.models import User
-from mainapp.models import ProductCategory, Product
+from mainapp.models import ProductCategory, Product, ProductAdminForm
 
 
 # Create your views here.
@@ -80,6 +80,10 @@ def admin_users_recovery(request, id_user):
     return HttpResponseRedirect(reverse('admins:admin_users'))
 
 
+# =========================
+# categories
+# =========================
+
 # READ = complete
 @user_passes_test(lambda u: u.is_superuser)
 def admin_categories_read(request):
@@ -143,3 +147,46 @@ def admin_categories_recovery(request, id_category):
     category.save()
     messages.success(request, f'Категория "{category}" успешно Востановленна!!')
     return HttpResponseRedirect(reverse('admins:admin_categories'))
+
+
+# =========================
+# products
+# =========================
+# READ
+def admin_products_read(request):
+    context = {'title': 'GeekShop - Admin | Товар',
+               'admin_products': Product.objects.all(),
+               'categories': ProductCategory.objects.all(),
+               }
+    return render(request, 'admins/admin-products-read.html', context)
+
+
+# ============================================
+# CREATE
+def admin_products_create(request):
+
+    if request.method == 'POST':
+        form = ProductAdminForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('admins:admin_products'))
+    else:
+        form = ProductAdminForm()
+    context = {'title': 'GeekShop - Admin | Регистрация Товара',
+               'form': form,
+               'categories': ProductCategory.objects.all(),
+               'id': id,
+               }
+
+    return render(request, 'admins/admin-products-create.html', context)
+
+
+# UPDATE
+def admin_products_update():
+    pass
+
+
+# DELETE
+def admin_products_delete(request):
+    pass
+# RECOVERY

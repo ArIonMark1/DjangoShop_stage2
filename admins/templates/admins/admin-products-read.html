@@ -1,0 +1,104 @@
+{% extends 'admins/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <main>
+        {# ================================================ #}
+        {% if messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                {% if messages %}
+                    {# =============================================================== #}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                    {# =============================================================== #}
+
+                {% endif %}
+
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+        {% endif %}
+        {# ================================================ #}
+        <div class="container-fluid">
+            <h1 class="mt-4">Продукты</h1>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table mr-1"></i>
+                    Продукты
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+
+                                <th>Имя Товара</th>
+                                <th>Изображение Товара</th>
+                                <th>Описание Товара</th>
+                                <th>Цена Товара</th>
+                                <th>количество Товара на складе</th>
+                                <th>Категория Товара</th>
+
+                                <th>Активность Категории</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+
+                                <th>Имя Товара</th>
+                                <th>Изображение Товара</th>
+                                <th>Описание Товара</th>
+                                <th>Цена Товара</th>
+                                <th>количество Товара на складе</th>
+                                <th>Категория Товара</th>
+
+                                <th>Активность Категории</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+
+                            {% for product in admin_products%}
+                                <tr>
+
+                                    <td><a href="#" style="color:  #008080; text-shadow: 2px 2px 5px greenyellow">
+                                        {{ product.name }}</a></td>
+                                    <td>{{ product.image }}</td>
+                                    <td>{{ product.description }}</td>
+                                    <td>{{ product.price }}</td>
+                                    <td>{{ product.quantity }}</td>
+                                    {% for category in categories %}
+                                        {% if category.id == product.category_id %}
+                                            <td>{{ category.name }}</td>
+                                        {% endif %}
+                                    {% endfor %}
+
+
+
+                                    <td class="text-center">
+                                        {% if product.is_active %}
+                                            <i class="fas fa-check-circle"></i>
+                                        {% else %}
+                                            <i class="fas fa-times-circle"></i>
+                                        {% endif %}
+                                    </td>
+
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'admins:create_products' %}">
+                        <button class="btn btn-success">Зарегистрировать товар</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

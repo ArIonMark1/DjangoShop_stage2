@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from admins.views import *
 
@@ -17,5 +17,10 @@ urlpatterns = [
     path('categories/update/<int:id_category>/', admin_categories_update, name='categories_update'),
     path('categories/delete/<int:id_category>/', admin_categories_delete, name='categories_delete'),
     path('categories/recovery/<int:id_category>/', admin_categories_recovery, name='categories_recovery'),
+
+    path('products/', admin_products_read, name='admin_products'),
+    path('products/create/', admin_products_create, name='create_products'),
+    path('products/update/', admin_products_update, name='update_products'),
+    path('products/delete/', admin_products_delete, name='delete_products'),
 
 ]
