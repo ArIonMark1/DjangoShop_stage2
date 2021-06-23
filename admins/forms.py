@@ -71,7 +71,7 @@ class ProductAdminCreationForm(forms.ModelForm):
     description = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control py-4'}))
     image = forms.ImageField(widget=forms.FileInput(attrs={
-        'class': 'custom-file-input'}), required=False)
+        'class': 'custom-file-input'}))
     price = forms.DecimalField(widget=forms.NumberInput(attrs={
         'class': 'form-control py-4'}))
     quantity = forms.IntegerField(widget=forms.NumberInput(attrs={

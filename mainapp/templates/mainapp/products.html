@@ -67,30 +67,31 @@
                         {% if product.is_active %}
 
                             <div class="col-lg-4 col-md-6 mb-4">
-                                <div class="card h-100">
-                                    <a href="#">
-                                        <img class="card-img-top"
-                                             src=" {{ product.image.url }} "
-                                             alt="image">
+                            <div class="card h-100">
+                                <a href="#">
+                                    <img class="card-img-top"
+                                         src="{{ product.image.url }} "
+                                         alt="image">
+                                </a>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="{% url 'products:category' product.category_id %}">{{ product.name }}</a>
+                                    </h4>
+                                    <h5>{{ product.price }}$</h5>
+                                    <p class="card-text">{{ product.description }}</p>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <a href="{% url 'baskets:basket_add' product.id %}"
+                                       class="btn btn-outline-success">
+                                        Отправить в корзину
                                     </a>
-                                    <div class="card-body">
-                                        <h4 class="card-title">
-                                            <a href="{% url 'products:category' product.category_id %}">{{ product.name }}</a>
-                                        </h4>
-                                        <h5>{{ product.price }}$</h5>
-                                        <p class="card-text">{{ product.description }}</p>
-                                    </div>
-                                    <div class="card-footer text-center">
-                                        <a href="{% url 'baskets:basket_add' product.id %}"
-                                           class="btn btn-outline-success">
-                                            Отправить в корзину
-                                        </a>
-                                        {#                            <button type="button" class="btn btn-outline-success">Отправить в корзину</button>#}
-                                    </div>
+                                    {#                            <button type="button" class="btn btn-outline-success">Отправить в корзину</button>#}
                                 </div>
                             </div>
+                        </div>
 
                         {% endif %}
+
                     {% endfor %}
                     {# ======================================================================= #}
 
@@ -120,10 +121,12 @@
 {% endblock %}
 
 {% block footer %}
+
     <footer class="py-5 bg-dark">
         <div class="container">
             <p class="m-0 text-center text-white">{{ title|time:'H:i' }}</p>
             <p class="m-0 text-center text-white">Copyright &copy; GeekShop {% now 'Y' %}</p>
         </div>
     </footer>
+
 {% endblock %}
