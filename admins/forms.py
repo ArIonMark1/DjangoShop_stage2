@@ -80,7 +80,7 @@ class ProductAdminCreationForm(forms.ModelForm):
     # category = forms.ChoiceField(widget=forms.Input(attrs={
     #     'class': 'form-control py-4'}))
 
-    category = ModelChoiceField(queryset=ProductCategory.objects.all())
+    category = forms.ModelChoiceField(queryset=ProductCategory.objects.all(), empty_label=None)
 
     is_active = forms.BooleanField(widget=forms.CheckboxInput(attrs={
         'class': 'form-control py-4'}), required=False)
