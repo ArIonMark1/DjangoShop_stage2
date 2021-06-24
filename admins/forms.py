@@ -1,10 +1,9 @@
-from django.forms import ModelChoiceField
 
 from users.forms import UserRegistrationForm, UserProfileForm
-# ProductAdminCreationForm
+
 from mainapp.models import ProductCategory, Product
 from django import forms
-# from django.forms.models import ModelForm
+
 from users.models import User
 
 
