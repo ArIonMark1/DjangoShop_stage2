@@ -4,10 +4,10 @@
 {% block content %}
     <main>
         <div class="container-fluid">
-            <h1 class="mt-4">Редактирование пользователя | {{ selected_user.username }}</h1>
+            <h1 class="mt-4">Редактирование пользователя | {{ user.username }}</h1>
             <div class="card-body">
 
-                <form action="{% url 'admins:users_update' selected_user.id %}" method="post"
+                <form action="{% url 'admins:users_update' user.id %}" method="post"
                       enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-row">
@@ -52,13 +52,16 @@
                 </form>
                 <div class="row">
                     <div class="col-lg-12" style="margin-top: 33px;">
-                        {% if selected_user.is_active %}
-                            <a href="{% url 'admins:users_delete' selected_user.id%}" class="btn btn-danger btn-block"
-                           type="submit">Удалить</a>
+                        {% if user.is_active %}
+                            <form action="{% url 'admins:users_delete' user.id %}" method="post">
+                                {% csrf_token %}
+                                <input class="btn btn-danger btn-block" type="submit" value="Удалить">
+                            </form>
                         {% else %}
-                            <a href="{% url 'admins:users_recovery' selected_user.id%}" class="btn btn-success btn-block"
-                           type="submit">Востановить</a>
+                            <a href="{% url 'admins:users_recovery' user.id %}"
+                               class="btn btn-success btn-block" type="submit">Востановить</a>
                         {% endif %}
+
 
                     </div>
                 </div>

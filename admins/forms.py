@@ -1,4 +1,3 @@
-
 from users.forms import UserRegistrationForm, UserProfileForm
 
 from mainapp.models import ProductCategory, Product
@@ -83,6 +82,15 @@ class ProductAdminCreationForm(forms.ModelForm):
 
     is_active = forms.BooleanField(widget=forms.CheckboxInput(attrs={
         'class': 'form-control py-4'}), required=False)
+
+    class Meta:
+        model = Product
+        fields = ('name', 'description', 'image', 'price', 'quantity', 'category', 'is_active')
+
+
+class ProductAdminUpdateForm(ProductAdminCreationForm):
+    image = forms.ImageField(widget=forms.FileInput(attrs={
+        'class': 'custom-file-input'}), required=False)
 
     class Meta:
         model = Product

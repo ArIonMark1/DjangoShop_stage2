@@ -51,10 +51,10 @@
                             </tfoot>
                             <tbody>
 
-                            {% for category in categories %}
+                            {% for category in productcategory_list %}
                                 <tr>
 
-                                    <td><a href="{% url 'admins:categories_update' category.id %}"
+                                    <td><a href="{% url 'admins:categories_update' category.pk %}"
                                            style="color:  #008080; text-shadow: 2px 2px 5px greenyellow">
                                         {{ category.name }}</a></td>
 

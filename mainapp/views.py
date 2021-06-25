@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger  # классы для работы с пагинацией страниц
 
-
 from mainapp.models import ProductCategory, Product
 
 
@@ -18,12 +17,14 @@ def index(request):
 def products(request, value=None, page=1):
     content = {
         'title': 'Geekshop - Каталог',
-        'categories': ProductCategory.objects.all()}
+        'categories': ProductCategory.objects.filter(is_active=True)}  # better method check if category is_valid
 
-    site_products = Product.objects.filter(category_id=value) if value else Product.objects.all()
+    site_products = Product.objects.filter(category_id=value, is_active=True, category__is_active=True) if value else \
+        Product.objects.filter(is_active=True, category__is_active=True)
 
     paginator = Paginator(site_products, 3)
     # products_paginator = paginator.page(page)
+
     try:
         products_paginator = paginator.page(page)
     except PageNotAnInteger:
