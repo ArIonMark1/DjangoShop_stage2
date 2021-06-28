@@ -1,7 +1,7 @@
 from django.shortcuts import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.template.loader import render_to_string  # для работы с ajax
-from django.http import JsonResponse  # для работы с ajax
+from django.template.loader import render_to_string  # to work with ajax
+from django.http import JsonResponse  # to work with ajax
 
 from mainapp.models import Product
 from baskets.models import Basket
@@ -33,7 +33,7 @@ def basket_remove(request, b_id):
 
 
 @login_required()
-def basket_edit(request, p_id, quantity):  # p_id => типа product id, так как просто id Shadow Name
+def basket_edit(request, p_id, quantity):
     if request.is_ajax():
         basket = Basket.objects.get(id=p_id)
         if quantity > 0:

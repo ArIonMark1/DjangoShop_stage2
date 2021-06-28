@@ -5,10 +5,14 @@ from django.urls import reverse, reverse_lazy
 from admins.forms import UserAdminRegisterForm, UserAdminProfileForm
 from admins.forms import CategoryCreationForm, CategoriesAdminProfileForm, ProductAdminCreationForm, \
     ProductAdminUpdateForm
+
+from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test  # decorator for mandatory authorisation
+
+from django.views.generic import TemplateView
 from django.views.generic.list import ListView  # for using Class Based Views
 from django.views.generic.edit import CreateView, UpdateView, DeleteView  # for create objects and Update
-from django.utils.decorators import method_decorator
+
 from users.models import User
 from mainapp.models import ProductCategory, Product
 
@@ -16,9 +20,10 @@ from mainapp.models import ProductCategory, Product
 # Create your views here.
 # CRUD
 
-class AdminIndexListView(ListView):
+class AdminIndexListView(TemplateView):  # here better than ListView ???
     template_name = 'admins/admin.html'
-    queryset = False
+
+    # queryset = False  # necessary for ListView !!!
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(AdminIndexListView, self).get_context_data(**kwargs)
@@ -29,7 +34,10 @@ class AdminIndexListView(ListView):
         return super(AdminIndexListView, self).dispatch(request, *args, **kwargs)
 
 
-# ================== CLASS READ =========================
+# ===========================================================
+
+# ===========================================================
+# ==================== CLASS READ ===========================
 
 class UserListView(ListView):  # inheriting from the built-in class ListView
     model = User  # model of our class User
@@ -37,13 +45,15 @@ class UserListView(ListView):  # inheriting from the built-in class ListView
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(UserListView, self).get_context_data(**kwargs)
-        context['title'] = 'GeekShop - Admin | Пользователи'
+        context['title'] = 'GeekShop - Admin | Users'
         return context
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser))  # admin validation decorator
     def dispatch(self, request, *args, **kwargs):
         return super(UserListView, self).dispatch(request, *args, **kwargs)
 
+
+# ===========================================================
 
 # ===========================================================
 # ==================== CLASS CREATE =========================
@@ -56,13 +66,15 @@ class UserCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(UserCreateView, self).get_context_data(**kwargs)
-        context['title'] = 'GeekShop - Admin | Регистрация'
+        context['title'] = 'GeekShop - Admin | Registration'
         return context
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, request, *args, **kwargs):
         return super(UserCreateView, self).dispatch(request, *args, **kwargs)
 
+
+# ===========================================================
 
 # ===========================================================
 # ==================== CLASS UPDATE =========================
@@ -75,7 +87,7 @@ class UserUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(UserUpdateView, self).get_context_data(**kwargs)
-        context['title'] = 'GeekShop - Admin | Пользователь'
+        context['title'] = 'GeekShop - Admin | User'
         return context
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
@@ -84,12 +96,13 @@ class UserUpdateView(UpdateView):
 
 
 # ===========================================================
+
+# ===========================================================
 # ==================== CLASS DELETE =========================
 
 class UserDeleteView(DeleteView):
     model = User
     template_name = 'admins/admin-users-update-delete.html'
-    # messages.success(request, f'Пользователь "{u}" успешно удален!!')
     success_url = reverse_lazy('admins:admin_users')
 
     def delete(self, request, *args,
@@ -108,7 +121,7 @@ def admin_users_recovery(request, id_user):
     user = User.objects.get(id=id_user)
     user.is_active = True
     user.save()
-    messages.success(request, f'Пользователь "{user}" успешно Востановлен!!')
+    messages.success(request, f'User "{user}" successfully restored!!')
     return HttpResponseRedirect(reverse('admins:admin_users'))
 
 
@@ -121,6 +134,7 @@ def admin_users_recovery(request, id_user):
 # categories
 # =========================
 
+# ====================================================================
 # ==================== CLASS READ CATEGORIES =========================
 
 class CategoriesListView(ListView):
@@ -129,7 +143,7 @@ class CategoriesListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(CategoriesListView, self).get_context_data(**kwargs)
-        context['title'] = ' GeekShop - Admin | Категории '
+        context['title'] = ' GeekShop - Admin | Categories '
         return context
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
@@ -138,6 +152,7 @@ class CategoriesListView(ListView):
 
 
 # ====================================================================
+
 # ====================================================================
 # =================== CLASS CREATE CATEGORIES ========================
 
@@ -149,7 +164,7 @@ class CategoriesCreateListViews(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CategoriesCreateListViews, self).get_context_data(**kwargs)
-        context['title'] = 'GeekShop - Admin | Регистрация категории'
+        context['title'] = 'GeekShop - Admin | Category registration'
         return context
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
@@ -170,13 +185,15 @@ class CategoriesUpdateListViews(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(CategoriesUpdateListViews, self).get_context_data(**kwargs)
-        context['title'] = 'GeekShop - Admin | Изменение категории'
+        context['title'] = 'GeekShop - Admin | Change category'
         return context
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, request, *args, **kwargs):
         return super(CategoriesUpdateListViews, self).dispatch(request, *args, **kwargs)
 
+
+# ====================================================================
 
 # ====================================================================
 # =================== CLASS DELETE CATEGORIES ========================
@@ -201,7 +218,7 @@ def admin_categories_recovery(request, id_category):
     category = ProductCategory.objects.get(id=id_category)
     category.is_active = True
     category.save()
-    messages.success(request, f'Категория "{category}" успешно Востановленна!!')
+    messages.success(request, f'Category "{category}" successfully restored!!')
     return HttpResponseRedirect(reverse('admins:admin_categories'))
 
 
@@ -214,13 +231,15 @@ class ProductsListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProductsListView, self).get_context_data(**kwargs)
-        context['title'] = 'GeekShop - Admin | Товар'
+        context['title'] = 'GeekShop - Admin | Product'
         return context
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, request, *args, **kwargs):
         return super(ProductsListView, self).dispatch(request, *args, **kwargs)
 
+
+# ====================================================================
 
 # ====================================================================
 # ==================== CLASS CREATE PRODUCTS =========================
@@ -233,13 +252,15 @@ class ProductsCreateListView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductsCreateListView, self).get_context_data(**kwargs)
-        context['title'] = 'GeekShop - Admin | Регистрация Товара'
+        context['title'] = 'GeekShop - Admin | Product registration'
         return context
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, request, *args, **kwargs):
         return super(ProductsCreateListView, self).dispatch(request, *args, **kwargs)
 
+
+# ====================================================================
 
 # ====================================================================
 # ==================== CLASS UPDATE PRODUCTS =========================
@@ -252,13 +273,15 @@ class ProductsUpdateListView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductsUpdateListView, self).get_context_data(**kwargs)
-        context['title'] = 'GeekShop - Admin | Изменение категории'
+        context['title'] = 'GeekShop - Admin | Change category'
         return context
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, request, *args, **kwargs):
         return super(ProductsUpdateListView, self).dispatch(request, *args, **kwargs)
 
+
+# ====================================================================
 
 # ====================================================================
 # ==================== CLASS DELETE PRODUCTS =========================

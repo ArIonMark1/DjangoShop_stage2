@@ -34,10 +34,10 @@ class UserAdminProfileForm(UserProfileForm):
 # --------------------------------------------------------------------
 class CategoryCreationForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control py-4', 'placeholder': 'Введите имя категории',
+        'class': 'form-control py-4', 'placeholder': 'Enter the name of the category',
     }))
     description = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control py-4', 'placeholder': 'Описание товара'
+        'class': 'form-control py-4', 'placeholder': 'Product description'
     }))
     is_active = forms.BooleanField(widget=forms.CheckboxInput(attrs={
         'class': 'form-control py-4'}), required=False)
@@ -49,10 +49,10 @@ class CategoryCreationForm(forms.ModelForm):
 
 class CategoriesAdminProfileForm(CategoryCreationForm):
     name = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control py-4', 'placeholder': 'Введите имя категории',
+        'class': 'form-control py-4', 'placeholder': 'Enter the name of the category',
     }))
     description = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control py-4', 'placeholder': 'Описание товара'
+        'class': 'form-control py-4', 'placeholder': 'Product description'
     }))
 
     model = ProductCategory
@@ -65,18 +65,15 @@ class CategoriesAdminProfileForm(CategoryCreationForm):
 
 class ProductAdminCreationForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control py-4'}))
+        'class': 'form-control py-4', 'placeholder': 'Enter product name'}))
     description = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control py-4'}))
+        'class': 'form-control py-4', 'placeholder': 'Enter product description'}))
     image = forms.ImageField(widget=forms.FileInput(attrs={
         'class': 'custom-file-input'}))
     price = forms.DecimalField(widget=forms.NumberInput(attrs={
-        'class': 'form-control py-4'}))
+        'class': 'form-control py-4', 'placeholder': 'Enter product price'}))
     quantity = forms.IntegerField(widget=forms.NumberInput(attrs={
-        'class': 'form-control py-4'}))
-
-    # category = forms.ChoiceField(widget=forms.Input(attrs={
-    #     'class': 'form-control py-4'}))
+        'class': 'form-control py-4', 'placeholder': 'Enter quantity'}))
 
     category = forms.ModelChoiceField(queryset=ProductCategory.objects.all(), empty_label=None)
 

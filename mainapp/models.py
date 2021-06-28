@@ -23,10 +23,3 @@ class Product(models.Model):
 
     def __str__(self):
         return f'{self.name} | {self.category}'
-
-
-# class ProductAdminForm(ModelForm):
-#
-#     class Meta:
-#         model = Product
-#         fields = ('name', 'description', 'image', 'price', 'quantity', 'category', 'is_active',)
