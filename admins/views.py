@@ -1,3 +1,4 @@
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
@@ -58,10 +59,11 @@ class UserListView(ListView):  # inheriting from the built-in class ListView
 # ===========================================================
 # ==================== CLASS CREATE =========================
 
-class UserCreateView(CreateView):
+class UserCreateView(CreateView, SuccessMessageMixin):
     model = User
     template_name = 'admins/admin-users-create.html'
     form_class = UserAdminRegisterForm
+    success_message = f'User has been Created!!!'
     success_url = reverse_lazy('admins:admin_users')
 
     def get_context_data(self, **kwargs):
@@ -79,10 +81,11 @@ class UserCreateView(CreateView):
 # ===========================================================
 # ==================== CLASS UPDATE =========================
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(UpdateView, SuccessMessageMixin):
     model = User
     template_name = 'admins/admin-users-update-delete.html'
     form_class = UserAdminProfileForm
+    success_message = 'User profile has been Changed '
     success_url = reverse_lazy('admins:admin_users')
 
     def get_context_data(self, **kwargs):
@@ -121,7 +124,7 @@ def admin_users_recovery(request, id_user):
     user = User.objects.get(id=id_user)
     user.is_active = True
     user.save()
-    messages.success(request, f'User "{user}" successfully restored!!')
+    messages.success(request, f'User "{user}" successfully restored !!!')
     return HttpResponseRedirect(reverse('admins:admin_users'))
 
 
@@ -156,11 +159,12 @@ class CategoriesListView(ListView):
 # ====================================================================
 # =================== CLASS CREATE CATEGORIES ========================
 
-class CategoriesCreateListViews(CreateView):
+class CategoriesCreateListViews(CreateView, SuccessMessageMixin):
     model = ProductCategory
     template_name = 'admins/admin-categories-create.html'
     form_class = CategoryCreationForm
     success_url = reverse_lazy('admins:admin_categories')
+    success_message = 'Category has been created !!!'
 
     def get_context_data(self, **kwargs):
         context = super(CategoriesCreateListViews, self).get_context_data(**kwargs)
@@ -177,11 +181,12 @@ class CategoriesCreateListViews(CreateView):
 # ====================================================================
 # =================== CLASS UPDATE CATEGORIES ========================
 
-class CategoriesUpdateListViews(UpdateView):
+class CategoriesUpdateListViews(UpdateView, SuccessMessageMixin):
     model = ProductCategory
     template_name = 'admins/admin-category-update-delete.html'
     form_class = CategoriesAdminProfileForm
     success_url = reverse_lazy('admins:admin_categories')
+    success_message = 'Category has been Changed !!!'
 
     def get_context_data(self, **kwargs):
         context = super(CategoriesUpdateListViews, self).get_context_data(**kwargs)
