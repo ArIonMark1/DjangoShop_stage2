@@ -1,11 +1,8 @@
-from django.conf.global_settings import LOGIN_URL
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import auth, messages
 from django.urls import reverse, reverse_lazy
-from django.views import View
-from django.views.generic import FormView, CreateView
+
 from django.views.generic.edit import CreateView, UpdateView
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
 from django.contrib.auth.decorators import login_required
@@ -47,8 +44,8 @@ class UserCreateView(CreateView):
 
 class UserProfileView(UpdateView):
     model = User
-    template_name = 'profile.html'
     form_class = UserProfileForm
+    template_name = 'profile.html'
 
     def get_success_url(self):
         return reverse_lazy('users:profile', args=(self.object.id,))
@@ -56,6 +53,28 @@ class UserProfileView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(UserProfileView, self).get_context_data(**kwargs)
         context['baskets'] = Basket.objects.filter(user=self.object)
+
+
+# ------- profile function -------
+# --------------------------------
+
+# @login_required
+# def profile(request):
+#     user = request.user
+#     if request.method == 'POST':
+#         form = UserProfileForm(data=request.POST, instance=user, files=request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, 'Данные изменены!!')
+#             return HttpResponseRedirect(reverse('users:profile'))
+#     else:
+#         form = UserProfileForm(instance=user)
+#
+#     context = {'title': 'GeekShop - Профиль',
+#                'form': form,
+#                'baskets': Basket.objects.filter(user=user),
+#                }
+#     return render(request, 'profile.html', context)
 
 
 # ===============================================================
@@ -86,28 +105,6 @@ class LogoutUserView(LogoutView):
 #
 #     context = {'title': 'GeekShop Авторизация', 'form': form}
 #     return render(request, 'login.html', context)
-
-
-# ------- profile function -------
-# --------------------------------
-
-# @login_required
-# def profile(request):
-#     user = request.user
-#     if request.method == 'POST':
-#         form = UserProfileForm(data=request.POST, instance=user, files=request.FILES)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, 'Данные изменены!!')
-#             return HttpResponseRedirect(reverse('users:profile'))
-#     else:
-#         form = UserProfileForm(instance=user)
-#
-#     context = {'title': 'GeekShop - Профиль',
-#                'form': form,
-#                'baskets': Basket.objects.filter(user=user),
-#                }
-#     return render(request, 'profile.html', context)
 
 
 # ====================================
