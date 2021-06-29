@@ -1,14 +1,13 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render, HttpResponseRedirect
-from django.contrib import auth, messages
-from django.urls import reverse, reverse_lazy
+
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 from django.views.generic.edit import CreateView, UpdateView
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
-from django.contrib.auth.decorators import login_required
+
 from baskets.models import Basket
 from users.models import User
 
