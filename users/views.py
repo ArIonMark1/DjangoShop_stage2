@@ -3,6 +3,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import auth, messages
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 from django.views.generic.edit import CreateView, UpdateView
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
@@ -56,6 +58,10 @@ class UserProfileView(SuccessMessageMixin, UpdateView):
         context = super(UserProfileView, self).get_context_data(**kwargs)
         context['baskets'] = Basket.objects.filter(user=self.object)
         return context
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(UserProfileView, self).dispatch(**kwargs)
 
 
 # ===============================================================
