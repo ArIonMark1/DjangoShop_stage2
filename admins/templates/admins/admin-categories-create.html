@@ -3,6 +3,18 @@
 
 {% block content %}
     <main>
+        {# ================================== #}
+        {% if form.errors %}
+
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>{{ form.errors }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+        {% endif %}
+        {# ================================== #}
         <div class="container-fluid">
             <h1 class="mt-4">Создание категории</h1>
             <form action="{% url 'admins:create_categories' %}" method="post">
@@ -29,6 +41,15 @@
                         </div>
                     </div>
 
+                    {# ================================================================================================================== #}
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="{{ form.is_active.id_for_label }}">Видимость
+                                катагории</label>
+                            {{ form.is_active }}
+                        </div>
+                    </div>
                     {# ================================================================================================================== #}
 
                 </div>

@@ -33,14 +33,14 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'products:index' %}">Каталог <i class="fas fa-shopping-bag"></i>
+                    <a class="nav-link" href="{% url 'products:index' %}">Catalog <i class="fas fa-shopping-bag"></i>
                     </a>
                 </li>
 
                 {% if user.is_authenticated %}
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:profile' %}">{{ user.username }}
+                        <a class="nav-link" href="{% url 'users:profile' user.id %}">{{ user.username }}
                             <i class="fas fa-user-circle"></i>
                         </a>
                     </li>
@@ -49,7 +49,7 @@
                     {% if user.is_superuser %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'admins:index' %}">!admin!
-                    {# неболшая хитрость для перехода в админку)) #}
+
                                 <i class="fas fa-users-cog"></i>
                             </a>
                         </li>
@@ -63,14 +63,14 @@
 
 {# ============================================================================== #}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:logout' %}">Выйти <i
+                        <a class="nav-link" href="{% url 'users:logout' %}">LogOut <i
                                 class="fas fa-sign-out-alt"></i></a>
                     </li>
 
                 {% else %}
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:login' %}">Войти <i class="fas fa-sign-in-alt"></i></a>
+                        <a class="nav-link" href="{% url 'users:login' %}">LogIn <i class="fas fa-sign-in-alt"></i></a>
                     </li>
 
                 {% endif %}

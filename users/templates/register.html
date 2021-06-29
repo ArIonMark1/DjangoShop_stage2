@@ -19,8 +19,9 @@
             </div>
 
         {% endif %}
+
         <div class="card shadow-lg border-0 rounded-lg mt-5">
-            <div class="card-header"><h3 class="text-center font-weight-light my-4">Создать аккаунт</h3>
+            <div class="card-header"><h3 class="text-center font-weight-light my-4">Create an account</h3>
             </div>
             <div class="card-body">
                 {# ========================================================================== #}
@@ -31,13 +32,13 @@
                     <div class="form-row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="small mb-1" for="{{ form.first_name.id_for_label }}">Имя</label>
+                                <label class="small mb-1" for="{{ form.first_name.id_for_label }}">First Name</label>
                                 {{ form.first_name }}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="small mb-1" for="{{ form.last_name.id_for_label }}">Фамилия</label>
+                                <label class="small mb-1" for="{{ form.last_name.id_for_label }}">Last Name</label>
                                 {{ form.last_name }}
                             </div>
                         </div>
@@ -45,13 +46,12 @@
 
                     <div class="form-row">
                         <div class="col-md-6">
-                            <label class="small mb-1" for="{{ form.username.id_for_label }}">Имя пользователя</label>
+                            <label class="small mb-1" for="{{ form.username.id_for_label }}">Username</label>
                             {{ form.username }}
                         </div>
 
                         <div class="col-md-6">
-                            <label class="small mb-1" for="{{ form.email.id_for_label }}">Адрес электронной
-                                почты</label>
+                            <label class="small mb-1" for="{{ form.email.id_for_label }}">E-mail</label>
                             {{ form.email }}
                         </div>
                     </div>
@@ -59,28 +59,27 @@
                     <div class="form-row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="small mb-1" for="{{ form.password1.id_for_label }}">Пароль</label>
+                                <label class="small mb-1" for="{{ form.password1.id_for_label }}">Password</label>
                                 {{ form.password1 }}
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="small mb-1" for="{{ form.password2.id_for_label }}">Подтверждение
-                                    пароля</label>
+                                <label class="small mb-1" for="{{ form.password2.id_for_label }}">Password</label>
                                 {{ form.password2 }}
                             </div>
                         </div>
                     </div>
                     <div class="form-group mt-4 mb-0">
-                        <input class="btn btn-primary btn-block" type="submit" value="Создать аккаунт">
+                        <input class="btn btn-primary btn-block" type="submit" value="Create an Account">
                     </div>
                 </form>
 
                 {# ========================================================================== #}
             </div>
             <div class="card-footer text-center">
-                <div class="small"><a href="{% url 'users:login' %}">Уже есть аккаунт? Авторизоваться</a></div>
+                <div class="small"><a href="{% url 'users:login' %}">Already have an account? Try to LogIn</a></div>
             </div>
         </div>
     </div>

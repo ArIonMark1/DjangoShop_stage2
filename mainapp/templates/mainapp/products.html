@@ -16,10 +16,17 @@
                 <div class="list-group">
 
                     {% for category in categories %}
-                        {% if category.is_active %}
+
+                        {% if category.name == 'All goods' %}
+                            <a href="{% url 'products:category' category.id %}"
+
+                               class="list-group-item">{{ category.name }}</a>
+                        {% else %}
                             <a href="{% url 'products:category' category.id %}"
                                class="list-group-item">{{ category.name }}</a>
                         {% endif %}
+
+
 
                     {% endfor %}
 
@@ -63,12 +70,13 @@
                 <div class="row">
                     {# ====================================================================== #}
 
-                    {% for product in products %}
+                    {% for product in product_list %}
+
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
                                 <a href="#">
                                     <img class="card-img-top"
-                                         src=" {{ product.image.url }} "
+                                         src="{{ product.image.url }} "
                                          alt="image">
                                 </a>
                                 <div class="card-body">
@@ -79,46 +87,68 @@
                                     <p class="card-text">{{ product.description }}</p>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <a href="{% url 'baskets:basket_add' product.id %}" class="btn btn-outline-success">
-                                        Отправить в корзину
+                                    <a href="{% url 'baskets:basket_add' product.id %}"
+                                       class="btn btn-outline-success">
+                                        Send to basket
                                     </a>
-                                    {#                            <button type="button" class="btn btn-outline-success">Отправить в корзину</button>#}
+
                                 </div>
                             </div>
                         </div>
+
+
                     {% endfor %}
                     {# ======================================================================= #}
 
                 </div>
 
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+                {% if is_paginated %}
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+
+                            <li class="page-item
+                                {% if not page_obj.has_previous %}disabled{% endif %}">
+
+
+                                <a class="page-link"
+                                   href="{% if page_obj.has_previous %}
+                                        {% url 'products:page' page_obj.previous_page_number %}
+                                        {% else %} # {% endif %}"
+                                   tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            {% for page in paginator.page_range %}
+
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'products:page' page %} ">
+                                        {{ page }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}">
+
+                                <a class="page-link"
+                                   href="{% if page_obj.has_next %}
+                                        {% url 'products:page' page_obj.next_page_number %}
+                               {% else %} # {% endif %}">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                {% endif %}
 
             </div>
-
         </div>
-
     </div>
     <!-- /.container -->
 
 {% endblock %}
 
 {% block footer %}
+
     <footer class="py-5 bg-dark">
         <div class="container">
             <p class="m-0 text-center text-white">{{ title|time:'H:i' }}</p>
             <p class="m-0 text-center text-white">Copyright &copy; GeekShop {% now 'Y' %}</p>
         </div>
     </footer>
+
 {% endblock %}
