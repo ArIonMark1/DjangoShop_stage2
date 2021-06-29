@@ -1,9 +1,10 @@
-from django.shortcuts import render
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger  # classes for working with page pagination
-
+# from django.shortcuts import render
+# from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger  # classes for working with page pagination
 from django.views.generic.list import ListView
 from django.views.generic.base import TemplateView
 from mainapp.models import ProductCategory, Product
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -32,6 +33,9 @@ class ProductsView(ListView):
         context['categories'] = ProductCategory.objects.filter(is_active=True)
         return context
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ProductsView, self).dispatch(**kwargs)
 # =============== function products ===============
 # =================================================
 
