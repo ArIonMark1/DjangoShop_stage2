@@ -126,7 +126,27 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'users.User'
 
-LOGIN_URL = '/auth/login'
+LOGIN_URL = '/auth/login/'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# ====================== next stage ======================
+DOMAIN = 'http://127.0.0.1:8000'
+
+# все это для исходящей почты "откуда"
+# ===================================
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = '30'
+EMAIL_HOST_USER = 'django@geekshop.local'     # не важны эти параметры
+EMAIL_HOST_PASSWORD = 'geekshop'    # не важны эти параметры
+EMAIL_USE_SSL = False
+# ===================================
+
+EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
+
+# "куда "
+
+# Варриант лирования сообщений почты в виде файлов вместо отправки
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'tmp/email-messages/'

@@ -1,7 +1,12 @@
+from django.conf import settings
+from django.contrib import auth
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.mail import send_mail
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
@@ -35,8 +40,24 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('users:login')
     success_message = 'Registration Completed Successfully!!!'
 
+    def form_valid(self, form):
+        if form.is_valid():
+            user = form.save()
+
+            if send_verify_mail(user):
+                print('сообщение подтверждения отправленно')
+                return HttpResponseRedirect(reverse('users:login'))
+            else:
+                print('ошибка отправки!!')
+                return HttpResponseRedirect(reverse('users:login'))
+        else:
+            form = UserCreateView.form_class()
+
+        return super(UserCreateView, self).form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super(UserCreateView, self).get_context_data(**kwargs)
+
         context['title'] = 'GeekShop Registration'
         return context
 
@@ -60,7 +81,7 @@ class UserProfileView(SuccessMessageMixin, UpdateView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        return super(UserProfileView, self).dispatch(**kwargs)
+        return super(UserProfileView, self).dispatch(request, *args, **kwargs)
 
 
 # ===============================================================
@@ -69,6 +90,28 @@ class UserProfileView(SuccessMessageMixin, UpdateView):
 
 class LogoutUserView(LogoutView):
     pass
+
+
+# ===============================================================
+# ============= verify email ====================================
+
+def verify(request, email, activation_key):
+    user = User.objects.filter(email=email).first()
+    if user:
+        if user.activation_key == activation_key and not user.is_activation_key_expired():
+            user.is_active = True
+            user.save()
+            auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+
+    return render(request, 'verify.html')
+
+
+def send_verify_mail(user):
+    # тема сообщения, само сообщение, почта на которую отправлять
+    subject = 'Verify your account'
+    link = reverse('users:verify', args=[user.email, user.activation_key])
+    message = f'{settings.DOMAIN}{link}'
+    return send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
 
 # ===============================================================
 # ------- login function -------

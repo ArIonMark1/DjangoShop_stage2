@@ -5,7 +5,6 @@ from django.views.generic.base import TemplateView
 from mainapp.models import ProductCategory, Product
 
 
-
 # Create your views here.
 
 class IndexView(TemplateView):

@@ -1,0 +1,11 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Verify your account
+From: webmaster@localhost
+To: test127@mail.ru
+Date: Wed, 25 Aug 2021 08:24:53 -0000
+Message-ID: <162987989318.9993.9030379164509876897@arion-Predator>
+
+http://127.0.0.1:8000/auth/verify/test127@mail.ru/0e5ecf27f793b65b630f62c79d3edc1fb8797e5a/
+-------------------------------------------------------------------------------
