@@ -24,7 +24,7 @@ import mainapp.views as mainapp
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', mainapp.IndexView.as_view(), name='index'),
-
+    path('', include('social_django.urls', namespace='social')),
     path('products/', include('mainapp.urls', namespace='products')),
     path('auth/', include('users.urls', namespace='users')),
     path('baskets/', include('baskets.urls', namespace='baskets')),

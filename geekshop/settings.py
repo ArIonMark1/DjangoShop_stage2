@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
 
     'mainapp',
     'users',
@@ -138,15 +139,25 @@ DOMAIN = 'http://127.0.0.1:8000'
 # ===================================
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = '30'
-EMAIL_HOST_USER = 'django@geekshop.local'     # не важны эти параметры
-EMAIL_HOST_PASSWORD = 'geekshop'    # не важны эти параметры
+EMAIL_HOST_USER = 'django@geekshop.local'  # не важны эти параметры
+EMAIL_HOST_PASSWORD = 'geekshop'  # не важны эти параметры
 EMAIL_USE_SSL = False
 # ===================================
 
-EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
+# EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
 
 # "куда "
 
 # Варриант лирования сообщений почты в виде файлов вместо отправки
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'tmp/email-messages/'
+# ============= google registration =======================
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2',
+)
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '673485336361-c7kig3brrljiu3cg3n193ni9a6brbf6i.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'PEC4-ANcGdPXA0Y2OAnQOkqc'
