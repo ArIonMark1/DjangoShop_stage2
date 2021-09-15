@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -138,18 +137,24 @@ DOMAIN = 'http://127.0.0.1:8000'
 
 # все это для исходящей почты "откуда"
 # ===================================
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = '30'
-EMAIL_HOST_USER = 'django@geekshop.local'  # не важны эти параметры
-EMAIL_HOST_PASSWORD = 'geekshop'  # не важны эти параметры
+# EMAIL_HOST = 'localhost'
+# EMAIL_PORT = '30'
+# EMAIL_HOST_USER = 'django@geekshop.local'  # не важны эти параметры
+# EMAIL_HOST_PASSWORD = 'geekshop'  # не важны эти параметры
 EMAIL_USE_SSL = False
 # ===================================
+# mailtrap.io
+# ===========
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = 'b135ea44269e7f'
+EMAIL_HOST_PASSWORD = '2eba42515c26aa'
+EMAIL_PORT = '2525'
 
 # EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
 
 # Варриант лирования сообщений почты в виде файлов вместо отправки
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = 'tmp/email-messages/'
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# EMAIL_FILE_PATH = 'tmp/email-messages/'
 # ============= google registration =======================
 
 AUTHENTICATION_BACKENDS = (
