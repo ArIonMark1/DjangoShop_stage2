@@ -147,8 +147,6 @@ EMAIL_USE_SSL = False
 
 # EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
 
-# "куда "
-
 # Варриант лирования сообщений почты в виде файлов вместо отправки
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'tmp/email-messages/'

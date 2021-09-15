@@ -1,6 +1,8 @@
 #new project GeekShop
 BackEnd Project GeekShop
-new data
+login with google settings
+save email messages in tmp folder
+
 
 
 
