@@ -1,8 +1,10 @@
 from django.conf import settings
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.checks import messages
 from django.core.mail import send_mail
+from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -11,10 +13,10 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 from django.views.generic.edit import CreateView, UpdateView
-from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
+from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm, AdditionUserProfileForm
 
 from baskets.models import Basket
-from users.models import User
+from users.models import User, ProfileUser
 
 
 # Create your views here.
@@ -65,23 +67,29 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 # ===============================================================
 # ===================== CLASS PROFILE ===========================
 
-class UserProfileView(SuccessMessageMixin, UpdateView):
-    model = User
-    form_class = UserProfileForm
+@transaction.atomic
+def profile(request):
+    user = request.user
     template_name = 'profile.html'
-    success_message = 'Your profile has been changed'
 
-    def get_success_url(self):
-        return reverse_lazy('users:profile', args=(self.object.id,))
+    if request.method == 'POST':
+        user_form = UserProfileForm(instance=user, data=request.POST, files=request.FILES)
+        profile_form = AdditionUserProfileForm(instance=user.profileuser, data=request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            # messages.success(request, 'Данные изменены!!')
+            return HttpResponseRedirect(reverse('users:profile'))
+    else:
+        user_form = UserProfileForm(instance=user)
+        profile_form = AdditionUserProfileForm(instance=user.profileuser)
 
-    def get_context_data(self, **kwargs):
-        context = super(UserProfileView, self).get_context_data(**kwargs)
-        context['baskets'] = Basket.objects.filter(user=self.object)
-        return context
-
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super(UserProfileView, self).dispatch(request, *args, **kwargs)
+    context = {
+        'title':  'GeekShop - Профиль',
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'baskets': Basket.objects.filter(user=user),
+    }
+    return render(request, template_name, context)
 
 
 # ===============================================================

@@ -160,8 +160,33 @@ EMAIL_PORT = '2525'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.github.GithubOAuth2',
 )
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+
+LOGIN_AUTH_URL_NAMESPACE = 'social'
+# LOGIN_URL = 'auth/login/github-oauth2'
+SOCIAL_AUTH_GITHUB_OAUTH2_KEY = os.getenv('GITHUB_APP_ID')
+SOCIAL_AUTH_GITHUB_OAUTH2_SECRET = os.getenv('GITHUB_API_SECRET')
+# GITHUB_APP_ID = os.getenv('GITHUB_APP_ID')
+# GITHUB_API_SECRET = os.getenv('GITHUB_API_SECRET')
+
+# ff9508f52334fbc078b30b8d1922fa1d64eedd9f
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -40,7 +40,7 @@
                 {% if user.is_authenticated %}
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:profile' user.id %}">{{ user.username }}
+                        <a class="nav-link" href="{% url 'users:profile' %}">{{ user.username }}
                             <i class="fas fa-user-circle"></i>
                         </a>
                     </li>
@@ -96,6 +96,7 @@
 <script src="{% static 'vendor/fontawesome/fontawesome-icons.js' %}" crossorigin="anonymous"></script>
 <script src=" {% static 'js/basket.js' %}" ></script>
 <script src=" {% static 'js/actionButton.js'%} " ></script>
+
 </body>
 
 </html>
