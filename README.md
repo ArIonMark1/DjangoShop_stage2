@@ -12,6 +12,11 @@ installed library:
     pip install social_auth_app_django
     pip install python-social-auth
 
+Stage_3:
+    - Dropdown menu
+    - ordersapp
+
+
 
 
 
