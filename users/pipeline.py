@@ -29,10 +29,10 @@
 #
 #     data = resp.json()['response'][0]
 #     if data['sex']:
-#         user.shopuserprofile.gender = ProfileUser.MALE if data['sex'] == 2 else ProfileUser.FEMALE
+#         user.profileuser.gender = ProfileUser.MALE if data['sex'] == 2 else ProfileUser.FEMALE
 #
 #     if data['about']:
-#         user.shopuserprofile.aboutMe = data['about']
+#         user.profileuser.aboutMe = data['about']
 #
 #     if data['image']:
 #         user.image = data['image']
