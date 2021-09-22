@@ -138,7 +138,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 # ====================== next stage ======================
 DOMAIN = 'http://127.0.0.1:8000'
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # все это указывает куда будет идти почта
 # ===================================
 # EMAIL_HOST = 'localhost'
@@ -156,9 +156,9 @@ EMAIL_USE_SSL = False
 # MailTrap.io
 # ===========
 EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = 'b135ea44269e7f'
-EMAIL_HOST_PASSWORD = '2eba42515c26aa'
-EMAIL_PORT = '2525'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
 
 # ============= Google registration =======================
 
