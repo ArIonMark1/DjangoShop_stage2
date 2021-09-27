@@ -1,10 +1,10 @@
 from django.db import transaction
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView
 
 from baskets.models import Basket
@@ -115,3 +115,11 @@ class OrderRead(DetailView):
         context = super(OrderRead, self).get_context_data(**kwargs)
         context['title'] = 'Просмотр заказа'
         return context
+
+
+def order_forming_complete(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    order.status = Order.SENT_TO_PROCEED
+    order.save()
+
+    return HttpResponseRedirect(reverse('ordersapp:orders_list'))
