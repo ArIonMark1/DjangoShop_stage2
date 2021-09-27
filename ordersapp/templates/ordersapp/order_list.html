@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{{ title| title }}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    {% block css %}
+    {% endblock %}
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">GeekShop</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'products:index' %}">Catalog <i class="fas fa-shopping-bag"></i>
+                    </a>
+                </li>
+
+                {% if user.is_authenticated %}
+                    {# ===============================================================================================#}
+
+                    <div class="dropdown show">
+                        <a class="btn bg-dark text-white-50 dropdown-toggle" href="#" role="button"
+                           id="dropdownMenuLink"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Shop Menu
+                        </a>
+
+                        <div class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuLink">
+
+                            <li class="nav-item dropdown-item">
+                                <a class="nav-link text-muted" href="{% url 'users:profile' %}">{{ user.username }}
+                                    <i class="fas fa-user-circle"></i>
+                                </a>
+                            </li>
+
+                            <li class="nav-item dropdown-item">
+                                <a class="nav-link text-muted" href="{% url 'ordersapp:orders_list' %}">OrdersApp
+                                    <i class="fas fa-user-circle"></i>
+                                </a>
+                            </li>
+
+                            {% if user.is_superuser %}
+                                <li class="nav-item dropdown-item">
+                                    <a class="nav-link text-muted" href="{% url 'admins:index' %}">!admin!
+                                        <i class="fas fa-users-cog"></i>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item dropdown-item">
+                                    <a class="nav-link text-muted" href="#">"user"
+                                        <i class="fas fa-users-cog"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li class="nav-item dropdown-item">
+                                <a class="nav-link text-muted" href="{% url 'users:logout' %}">LogOut <i
+                                        class="fas fa-sign-out-alt"></i></a>
+                            </li>
+                        </div>
+                    </div>
+
+                    {# ============================================================================================== #}
+                {% else %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:login' %}">LogIn <i class="fas fa-sign-in-alt"></i></a>
+                    </li>
+
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Content -->
+
+{% block content %}
+
+    <div class="h2 text-center head">
+        Ваши заказы,
+        {% if user.first_name %}
+            {{ user.first_name|title }}
+        {% else %}
+            Пользователь
+        {% endif %}
+    </div>
+    <table class="table orders_list text-center">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Создан</th>
+            <th>Обновлен</th>
+            <th>Статус</th>
+            <th>Доступные действия</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for item in object_list %}
+            {% if item.is_active %}
+                <tr class="">
+                    <td class="td1 orders_list">{{ item.pk }}</td>
+                    <td>{{ item.created|date:"Y-m-d H:i:s" }}</td>
+                    <td>{{ item.updated|date:"Y-m-d H:i:s" }}</td>
+                    <td>{{ item.get_status_display }}</td>
+
+                    <td class="text-center d-flex justify-content-around">
+
+                        <a href="{% url 'ordersapp:order_read' item.pk %}"
+                           class="btn btn-link text-decoration-none text-success">
+                            посмотреть
+                        </a>
+
+                        {% if item.status == 'FM' %}
+                            <a href="{% url 'ordersapp:order_update' item.pk %}"
+                            class="btn btn-link text-decoration-none text-success">
+                                редактировать
+                            </a>
+                        {% endif %}
+
+                        {% if item.status == 'FM' %}
+                            <a href="{% url 'orders:order_delete' item.pk %}"
+                               class="btn btn-link text-decoration-none text-danger">
+                                удалить
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-center mt-5">
+        <button class="btn btn-default btn-round">
+            <a href="{% url 'index' %}">
+                на главную
+            </a>
+        </button>
+        <button class="btn btn-default btn-round">
+            <a href="{% url 'ordersapp:order_create' %}">
+                новый
+            </a>
+        </button>
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- FontAwesome script -->
+<script src="{% static 'vendor/fontawesome/fontawesome-icons.js' %}" crossorigin="anonymous"></script>
+<script src=" {% static 'js/basket.js' %}"></script>
+<script src=" {% static 'js/actionButton.js' %} "></script>
+{% block js %}
+{% endblock %}
+</body>
+
+</html>
+
+
+
+
+
+
+
