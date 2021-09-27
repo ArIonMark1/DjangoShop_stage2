@@ -55,11 +55,10 @@
                             </li>
 
                             <li class="nav-item dropdown-item">
-                                <a class="nav-link text-muted" href="{% url 'ordersapp:index' %}">OrdersApp
+                                <a class="nav-link text-muted" href="{% url 'ordersapp:orders_list' %}">OrdersApp
                                     <i class="fas fa-user-circle"></i>
                                 </a>
                             </li>
-
 
                             {% if user.is_superuser %}
                                 <li class="nav-item dropdown-item">
@@ -95,7 +94,6 @@
     </div>
 </nav>
 
-
 <!-- Page Content -->
 {% block content %}
 {% endblock %}
@@ -106,12 +104,12 @@
 <!-- Bootstrap core JavaScript -->
 <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
 <!-- FontAwesome script -->
 <script src="{% static 'vendor/fontawesome/fontawesome-icons.js' %}" crossorigin="anonymous"></script>
 <script src=" {% static 'js/basket.js' %}"></script>
 <script src=" {% static 'js/actionButton.js' %} "></script>
-
+{% block js %}
+{% endblock %}
 </body>
 
 </html>

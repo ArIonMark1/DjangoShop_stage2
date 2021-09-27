@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'kt(&c^i22*7^l*)!o90q*t&z*1yvwo)&71a(a%hsda8+w**umf'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -139,7 +139,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 # ====================== next stage ======================
 DOMAIN = 'http://127.0.0.1:8000'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # все это указывает куда будет идти почта
 # ===================================
 # EMAIL_HOST = 'localhost'
@@ -153,13 +153,18 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_FILE_PATH = 'tmp/email-messages/'
 
 EMAIL_USE_SSL = False
-# ===================================
+# ====================
 # MailTrap.io
 # ===========
 EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = os.getenv('EMAIL_PORT')
+
+EMAIL_HOST_USER = '188ea878b29d30'
+EMAIL_HOST_PASSWORD = 'ba1f32fab0fa6a'
+EMAIL_PORT = '2525'
+
+# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+# EMAIL_PORT = os.getenv('EMAIL_PORT')
 
 # ============= Google registration =======================
 
@@ -190,7 +195,6 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 #     # 'apps.users.pipeline.get_avatar', # This is the path of your pipeline.py
 #     # and get_avatar is the function.
 # )
-
 # =================== GitHub Registration ======================
 
 SOCIAL_AUTH_GITHUB_OAUTH2_KEY = os.getenv('GITHUB_APP_ID')
@@ -198,3 +202,13 @@ SOCIAL_AUTH_GITHUB_OAUTH2_SECRET = os.getenv('GITHUB_API_SECRET')
 
 # GITHUB_APP_ID = os.getenv('GITHUB_APP_ID')
 # GITHUB_API_SECRET = os.getenv('GITHUB_API_SECRET')
+
+# настройки брокера (celery)
+REDIS_HOST = '0.0.0.0'
+REDIS_PORT = '6379'
+CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

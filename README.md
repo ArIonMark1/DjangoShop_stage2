@@ -15,6 +15,7 @@ installed library:
 Stage_3:
     - Dropdown menu
     - ordersapp
+    - install celery, redis
 
 
 
