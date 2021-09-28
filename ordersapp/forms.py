@@ -25,8 +25,15 @@ class OrderItemForm(forms.ModelForm):
         model = OrderItem
         exclude = ()
 
-    def __int__(self, *args, **kwargs):
-        super(OrderItemForm, self).__int__(*args, **kwargs)
+        widgets = {
+            'product': forms.Select(attrs={
+                'class': 'form-control'}),
+            'quantity': forms.NumberInput(attrs={
+                'class': 'form-control'}),
+        }
 
-        for field_name, field in self.fields.items():
-            field.wiget.attrs['class'] = 'form-control'
+    # def __int__(self, *args, **kwargs):
+    #     super(OrderItemForm, self).__int__(*args, **kwargs)
+    #
+    #     for field_name, field in self.fields.items():
+    #         field.widget.attrs['class'] = 'form-control'
