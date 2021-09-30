@@ -21,12 +21,15 @@ class OrderForm(forms.ModelForm):
 
 
 class OrderItemForm(forms.ModelForm):
+    price = forms.CharField(label='цена', required=False, widget=forms.TextInput(attrs={
+        'class': 'form-control', 'readonly': True, }))
+
     class Meta:
         model = OrderItem
         exclude = ()
 
         widgets = {
-            'product': forms.Select(attrs={
+            'products': forms.Select(attrs={
                 'class': 'form-control'}),
             'quantity': forms.NumberInput(attrs={
                 'class': 'form-control'}),

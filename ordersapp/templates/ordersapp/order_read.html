@@ -9,25 +9,25 @@
                 <div class="col-lg-12">
                     <img width="150"
                             {#                             {{ item.product.image }}#}
-                         src="{% if item.product.image %} {{ item.product.image.url }}
+                         src="{% if item.products.image %} {{ item.products.image.url }}
                                 {% else %} {% static 'vendor/img/products/default.png' %}
                                 {% endif %}"
                          class="img-thumbnail" alt="foto">
                 </div>
-                {#                <img src="{{ item.product.image|media_folder_products }}"#}
-                {#                     alt="{{ item.product.short_desc }}">#}
+                {#                <img src="{{ item.products.image|media_folder_products }}"#}
+                {#                     alt="{{ item.products.short_desc }}">#}
                 <span class="category_name">
-                   {{ item.product.category.name }}
+                   {{ item.products.category.name }}
                </span>
-                <span class="product_name">{{ item.product.name }}</span>
+                <span class="product_name">{{ item.products.name }}</span>
                 <span class="product_price">
-                   {{ item.product.price }}&nbspруб
+                   {{ item.products.price }}&nbspруб
                </span>
                 <span class="product_quantitiy">
                    x {{ item.quantity }} шт.
                </span>
                 <span class="product_cost">
-                    = {{ item.get_product_cost }}&nbspруб
+                    = {{ item.get_products_cost }}&nbspруб
                </span>
             </div>
         {% endfor %}
