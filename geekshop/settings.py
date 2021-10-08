@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'kt(&c^i22*7^l*)!o90q*t&z*1yvwo)&71a(a%hsda8+w**umf'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -158,13 +158,13 @@ EMAIL_USE_SSL = False
 # ===========
 EMAIL_HOST = 'smtp.mailtrap.io'
 
-EMAIL_HOST_USER = '188ea878b29d30'
-EMAIL_HOST_PASSWORD = 'ba1f32fab0fa6a'
-EMAIL_PORT = '2525'
+# EMAIL_HOST_USER = '188ea878b29d30'
+# EMAIL_HOST_PASSWORD = 'ba1f32fab0fa6a'
+# EMAIL_PORT = '2525'
 
-# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-# EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
 
 # ============= Google registration =======================
 

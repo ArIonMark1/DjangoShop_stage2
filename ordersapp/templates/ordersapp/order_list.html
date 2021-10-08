@@ -136,7 +136,7 @@
 
                         {% if item.status == 'FM' %}
                             <a href="{% url 'ordersapp:order_update' item.pk %}"
-                            class="btn btn-link text-decoration-none text-success">
+                               class="btn btn-link text-decoration-none text-success">
                                 редактировать
                             </a>
                         {% endif %}
@@ -180,9 +180,9 @@
 <script src=" {% static 'js/basket.js' %}"></script>
 <script src=" {% static 'js/actionButton.js' %} "></script>
 <script src=" {% static 'js/jquery_formset.js' %} "></script>
-<script src=" {% static 'js/orders_scripts.js' %} "></script>
-{% block js %}
 
+{% block js %}
+    <script src=" {% static 'js/orders_scripts.js' %} "></script>
 {% endblock %}
 </body>
 
