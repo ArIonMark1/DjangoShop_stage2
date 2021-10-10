@@ -21,12 +21,22 @@ class OrderForm(forms.ModelForm):
 
 
 class OrderItemForm(forms.ModelForm):
+    price = forms.CharField(label='цена', required=False, widget=forms.TextInput(attrs={
+        'class': 'form-control', 'readonly': True, }))
+
     class Meta:
         model = OrderItem
         exclude = ()
 
-    def __int__(self, *args, **kwargs):
-        super(OrderItemForm, self).__int__(*args, **kwargs)
+        widgets = {
+            'products': forms.Select(attrs={
+                'class': 'form-control'}),
+            'quantity': forms.NumberInput(attrs={
+                'class': 'form-control'}),
+        }
 
-        for field_name, field in self.fields.items():
-            field.wiget.attrs['class'] = 'form-control'
+    # def __int__(self, *args, **kwargs):
+    #     super(OrderItemForm, self).__int__(*args, **kwargs)
+    #
+    #     for field_name, field in self.fields.items():
+    #         field.widget.attrs['class'] = 'form-control'
