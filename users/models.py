@@ -36,7 +36,7 @@ class ProfileUser(models.Model):
     )
 
     user = models.OneToOneField(User, unique=True, null=False, db_index=True, on_delete=models.CASCADE)
-    gender = models.CharField(choices=GENDER_CHOICE, blank=True, default=None, max_length=1, verbose_name='пол')
+    gender = models.CharField(choices=GENDER_CHOICE, blank=True, null=True, default=None, max_length=1, verbose_name='пол')
     tagline = models.CharField(max_length=128, blank=True, verbose_name='теги')
     description = models.TextField(blank=True, max_length=256, verbose_name='о себе')
 

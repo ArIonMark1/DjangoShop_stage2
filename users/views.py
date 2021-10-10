@@ -2,8 +2,6 @@ from django.conf import settings
 from django.contrib import auth, messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.core.checks import messages
-from django.core.mail import send_mail
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -18,10 +16,14 @@ from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm, Ad
 from baskets.models import Basket
 from users.models import User, ProfileUser
 
+from users.tasks import send_email
+
 
 # Create your views here.
 
 # ====================== CLASS LOGIN ============================
+
+
 class LoginUsersView(LoginView):
     template_name = 'login.html'
     form_class = UserLoginForm
@@ -44,15 +46,20 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         if form.is_valid():
-            user = form.save()
 
-            if send_verify_mail(user):
-                print('сообщение подтверждения отправленно')
+            user = form.save()
+            email = user.email
+            a_k = user.activation_key
+            if send_email.delay(email, a_k):
+
+                messages.success(self.request, 'Сообщение подтверждения отправленно на вашу почту!.')
                 return HttpResponseRedirect(reverse('users:login'))
             else:
-                print('ошибка отправки!!')
+
+                messages.error(self.request, 'Сообщение подтверждения НЕ отправленно!!! Ошибка регистрации!!')
                 return HttpResponseRedirect(reverse('users:login'))
         else:
+
             form = UserCreateView.form_class()
 
         return super(UserCreateView, self).form_valid(form)
@@ -84,7 +91,7 @@ def profile(request):
         profile_form = AdditionUserProfileForm(instance=user.profileuser)
 
     context = {
-        'title':  'GeekShop - Профиль',
+        'title': 'GeekShop - Профиль',
         'user_form': user_form,
         'profile_form': profile_form,
         'baskets': Basket.objects.filter(user=user),
@@ -113,13 +120,12 @@ def verify(request, email, activation_key):
 
     return render(request, 'verify.html')
 
-
-def send_verify_mail(user):
-    # тема сообщения, само сообщение, почта на которую отправлять
-    subject = 'Verify your account'
-    link = reverse('users:verify', args=[user.email, user.activation_key])
-    message = f'{settings.DOMAIN}{link}'
-    return send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
+# def send_verify_mail(email, a_k):
+# тема сообщения, само сообщение, почта на которую отправлять
+# subject = 'Verify your account'
+# link = reverse('users:verify', args=[email, a_k])
+# message = f'{settings.DOMAIN}{link}'
+# return send_mail(subject, message, settings.EMAIL_HOST_USER, [email], fail_silently=False)
 
 # ===============================================================
 # ------- login function -------
