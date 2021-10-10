@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'kt(&c^i22*7^l*)!o90q*t&z*1yvwo)&71a(a%hsda8+w**umf'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'geekshop.urls'
@@ -66,6 +67,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -128,40 +131,69 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'users.User'
 
 LOGIN_URL = '/auth/login/'
+LOGIN_ERROR_URL = '/'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 # ====================== next stage ======================
 DOMAIN = 'http://127.0.0.1:8000'
-
-# все это для исходящей почты "откуда"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# все это указывает куда будет идти почта
 # ===================================
 # EMAIL_HOST = 'localhost'
 # EMAIL_PORT = '30'
 # EMAIL_HOST_USER = 'django@geekshop.local'  # не важны эти параметры
 # EMAIL_HOST_PASSWORD = 'geekshop'  # не важны эти параметры
-EMAIL_USE_SSL = False
-# ===================================
-# mailtrap.io
-# ===========
-EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = 'b135ea44269e7f'
-EMAIL_HOST_PASSWORD = '2eba42515c26aa'
-EMAIL_PORT = '2525'
-
-# EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
 
 # Варриант лирования сообщений почты в виде файлов вместо отправки
+# EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
 # EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 # EMAIL_FILE_PATH = 'tmp/email-messages/'
-# ============= google registration =======================
+
+EMAIL_USE_SSL = False
+# ===================================
+# MailTrap.io
+# ===========
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+
+# ============= Google registration =======================
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.github.GithubOAuth2',
 )
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+
+# SOCIAL_AUTH_GOOGLE_OAUTH2_IGNORE_DEFAULT_SCOPE = True
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email']
+
+# SOCIAL_AUTH_PIPELINE = (
+#     'social.pipeline.social_auth.social_details',
+#     'social.pipeline.social_auth.social_uid',
+#     'social.pipeline.social_auth.auth_allowed',
+#     'social.pipeline.social_auth.social_user',
+#     'social.pipeline.user.get_username',
+#     'social.pipeline.user.create_user',
+#     'user.pipeline.save_user_profile',
+#     'social.pipeline.social_auth.associate_user',
+#     'social.pipeline.social_auth.load_extra_data',
+#     'social.pipeline.user.user_details',
+#     # 'apps.users.pipeline.get_avatar', # This is the path of your pipeline.py
+#     # and get_avatar is the function.
+# )
+
+# =================== GitHub Registration ======================
+
+SOCIAL_AUTH_GITHUB_OAUTH2_KEY = os.getenv('GITHUB_APP_ID')
+SOCIAL_AUTH_GITHUB_OAUTH2_SECRET = os.getenv('GITHUB_API_SECRET')
+
+# GITHUB_APP_ID = os.getenv('GITHUB_APP_ID')
+# GITHUB_API_SECRET = os.getenv('GITHUB_API_SECRET')
