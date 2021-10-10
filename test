@@ -1,0 +1,27 @@
+SECRET_KEY = kt(&c^i22*7^l*)!o90q*t&z*1yvwo)&71a(a%hsda8+w**umf
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 673485336361-c7kig3brrljiu3cg3n193ni9a6brbf6i.apps.googleusercontent.com
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = PEC4-ANcGdPXA0Y2OAnQOkqc
+
+GITHUB_APP_ID = 17a973de9cd03422c33c
+GITHUB_API_SECRET = ff9508f52334fbc078b30b8d1922fa1d64eedd9f
+
+EMAIL_HOST = smtp.mailtrap.io
+EMAIL_HOST_USER = 188ea878b29d30
+EMAIL_HOST_PASSWORD = ba1f32fab0fa6a
+EMAIL_PORT = 2525
+
+
+ENGINE = django.db.backends.postgresql
+NAME = geekshop
+USER = postgres
+
+# настройки брокера (celery):
+REDIS_HOST = 0.0.0.0
+REDIS_PORT = 6379
+CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = json
+CELERY_RESULT_SERIALIZER = json
