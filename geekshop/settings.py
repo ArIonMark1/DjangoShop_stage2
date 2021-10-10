@@ -82,9 +82,9 @@ WSGI_APPLICATION = 'geekshop.wsgi.application'
 # надо прятать эти настройки
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'geekshop',
-        'USER': 'postgres',
+        'ENGINE': os.getenv('ENGINE'),
+        'NAME': os.getenv('NAME'),
+        'USER': os.getenv('USER'),
     }
 }
 # DATABASES = {
@@ -163,7 +163,7 @@ EMAIL_USE_SSL = False
 # ====================
 # MailTrap.io
 # ===========
-EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
 
 # EMAIL_HOST_USER = '188ea878b29d30'
 # EMAIL_HOST_PASSWORD = 'ba1f32fab0fa6a'
@@ -211,11 +211,11 @@ SOCIAL_AUTH_GITHUB_OAUTH2_SECRET = os.getenv('GITHUB_API_SECRET')
 # GITHUB_API_SECRET = os.getenv('GITHUB_API_SECRET')
 
 # настройки брокера (celery)
-REDIS_HOST = '0.0.0.0'
-REDIS_PORT = '6379'
-CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
-CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
+REDIS_HOST = os.getenv('REDIS_HOST')
+REDIS_PORT = os.getenv('REDIS_PORT')
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+CELERY_BROKER_TRANSPORT_OPTIONS = os.getenv('CELERY_BROKER_TRANSPORT_OPTIONS')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
+CELERY_ACCEPT_CONTENT = os.getenv('CELERY_ACCEPT_CONTENT')
+CELERY_TASK_SERIALIZER = os.getenv('CELERY_TASK_SERIALIZER')
+CELERY_RESULT_SERIALIZER = os.getenv('CELERY_RESULT_SERIALIZER')
