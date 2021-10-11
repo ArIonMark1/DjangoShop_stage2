@@ -75,7 +75,6 @@
                             <label class="small mb-1" for="{{ user_form.username.id_for_label }}">UserName</label>
                             {{ user_form.username }}
                         </div>
-
                         <div class="col-lg-6">
                             <label class="small mb-1" for="{{ user_form.email.id_for_label }}">E-mail</label>
                             {{ user_form.email }}
@@ -92,22 +91,18 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-
                                 <label class="small mb-1" for="{{ profile_form.tagline.id_for_label }}">Tagline</label>
                                 {{ profile_form.tagline }}
 
                             </div>
                         </div>
                     </div>
+
                     <div class="form-row mb-2">
                         <div class="col-lg-12">
-                            <div class="custom-file">
-
-                                <label class="small mb-1" for="{{ profile_form.description.id_for_label }}">Select
-                                    Description</label>
-                                {{ profile_form.description }}
-
-                            </div>
+                            <label class="small mb-1" for="{{ profile_form.description.id_for_label }}">Select
+                                Description</label>
+                            {{ profile_form.description }}
                         </div>
                     </div>
 
@@ -126,10 +121,6 @@
                                     User</h2>
 
                             {% endif %}
-
-                            {# <label class="small mb-1" for="inputBirthday">День рождения</label>#}
-                            {# <input class="form-control py-4" id="inputBirthday" type="date"#}
-                            {#   aria-describedby="birthdayHelp" value="1998-01-13"/>#}
 
 
                         </div>
